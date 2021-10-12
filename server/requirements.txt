@@ -1,5 +1,6 @@
 git+git://github.com/superdesk/newsroom-core.git@develop#egg=Newsroom-Core
 
+
 # Copied from `newsroom-core` for now (until feedparser is fixed)
 WTForms==2.2.1
 flask-webpack>=0.1.0,<0.2
