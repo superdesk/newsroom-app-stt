@@ -3,7 +3,8 @@ import pathlib
 from newsroom.web.default_settings import ELASTICSEARCH_SETTINGS
 from newsroom.web.default_settings import CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT
 
-ABS_PATH = pathlib.Path(__file__).parent
+SERVER_PATH = pathlib.Path(__file__).resolve().parent
+CLIENT_PATH = SERVER_PATH.parent.joinpath("client")
 
 SITE_NAME = 'Mediapankki'
 COPYRIGHT_HOLDER = 'STT'
