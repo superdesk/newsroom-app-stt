@@ -1,1 +1,1 @@
-git+https://github.com/marklark86/newsroom-core.git@NHUB-16-2#egg=Newsroom-Core
+git+https://github.com/superdesk/newsroom-core.git@develop#egg=Newsroom-Core
