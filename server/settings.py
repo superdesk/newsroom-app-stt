@@ -103,3 +103,5 @@ NEWS_API_ENABLED = False
 
 # SDAN-695
 ELASTICSEARCH_SETTINGS['settings']['query_string'] = {'analyze_wildcard': True}
+
+PREPEND_EMBARGOED_TO_WIRE_SEARCH = True
