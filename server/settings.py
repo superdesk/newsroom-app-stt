@@ -1,7 +1,7 @@
 import pathlib
 
-from newsroom.web.default_settings import ELASTICSEARCH_SETTINGS
-from newsroom.web.default_settings import CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT
+from newsroom.web.default_settings import ELASTICSEARCH_SETTINGS, BLUEPRINTS as DEFAULT_BLUEPRINT, \
+    CORE_APPS as DEFAULT_CORE_APPS, CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
 CLIENT_PATH = SERVER_PATH.parent.joinpath("client")
@@ -21,51 +21,27 @@ INSTALLED_APPS = [
 ]
 
 CORE_APPS = [
-    'superdesk.notification',
-    'superdesk.data_updates',
-    'content_api.items',
-    'content_api.items_versions',
-    'content_api.search',
-    'content_api.auth',
-    'content_api.publish',
-    'newsroom.users',
-    'newsroom.companies',
-    'newsroom.wire',
-    'newsroom.topics',
-    'newsroom.upload',
-    'newsroom.history',
-    'newsroom.ui_config',
-    'newsroom.notifications',
-    'newsroom.products',
-    'newsroom.section_filters',
-    'newsroom.navigations',
-    'newsroom.cards',
-    'newsroom.reports',
-    'newsroom.public',
-    'newsroom.settings',
-    'newsroom.photos',
-    'newsroom.monitoring',
+    app
+    for app in DEFAULT_CORE_APPS
+    if app not in [
+        'newsroom.agenda',
+        'newsroom.media_utils',
+        'newsroom.news_api',
+        'newsroom.news_api.api_tokens',
+        'newsroom.news_api.api_audit',
+        'newsroom.monitoring',
+        'newsroom.company_expiry_alerts',
+    ]
 ]
 
 BLUEPRINTS = [
-    'newsroom.wire',
-    'newsroom.auth',
-    'newsroom.users',
-    'newsroom.companies',
-    'newsroom.design',
-    'newsroom.push',
-    'newsroom.topics',
-    'newsroom.upload',
-    'newsroom.notifications',
-    'newsroom.products',
-    'newsroom.section_filters',
-    'newsroom.navigations',
-    'newsroom.cards',
-    'newsroom.reports',
-    'newsroom.public',
-    'newsroom.settings',
-    'newsroom.monitoring',
-    'newsroom.history',
+    blueprint
+    for blueprint in DEFAULT_BLUEPRINT
+    if blueprint not in [
+        'newsroom.monitoring',
+        'newsroom.news_api.api_tokens',
+        'newsroom.agenda',
+    ]
 ]
 
 LANGUAGES = ['fi', 'en']
