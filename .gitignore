@@ -119,3 +119,6 @@ package-lock.json
 
 # pytest
 .pytest_cache
+
+# data dumps
+dump
