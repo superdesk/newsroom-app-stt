@@ -32,6 +32,15 @@
 .wire-column__nav__tab a {
     padding: .5rem .6rem;
 }
+.wire-articles__item__meta {
+    align-items: flex-start;
+}
+.wire-articles__item__meta-info {
+    flex-direction: row;
+}
+.wire-column__preview__content .wire-articles__item__meta-info {
+    flex-direction: column;
+}
 
 @media only screen and (min-width: 576px) {
     .font-stt {
@@ -43,6 +52,9 @@
     .navbar__logo {
         max-width: 230px;
         padding: 0 0.5rem 0 1.2rem;
+    }
+    .wire-articles__item__meta {
+        align-items: center;
     }
 }
 @media only screen and (min-width: 992px) {
