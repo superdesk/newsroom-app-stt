@@ -61,6 +61,10 @@ def on_publish_item(app, item, is_new, **kwargs):
             item['ancestors'].append(original['_id'])
             item['bookmarks'] = original.get('bookmarks', [])
 
+    # dump abstract
+    for field in ('description_html', 'description_text'):
+        item.pop(field, None)
+
 
 def init_app(app):
     publish_item.connect(on_publish_item)
