@@ -2,7 +2,6 @@
 import hmac
 from flask import json
 from newsroom.utils import get_entity_or_404
-from newsroom.tests.fixtures import init_auth  # noqa
 
 
 def get_signature_headers(data, key):
