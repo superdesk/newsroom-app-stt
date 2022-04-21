@@ -25,7 +25,6 @@ CORE_APPS = [
     for app in DEFAULT_CORE_APPS
     if app not in [
         'newsroom.agenda',
-        'newsroom.media_utils',
         'newsroom.news_api',
         'newsroom.news_api.api_tokens',
         'newsroom.news_api.api_audit',
