@@ -1,4 +1,4 @@
-Seuraavien asiakkaiden sopimukset vanhenevat viikon kuluessa: (before {{expiry_date.strftime('%Y-%m-%d')}}):
+Seuraavien asiakkaiden sopimukset vanhenevat viikon kuluessa: (before {{expiry_date | datetime_short}}):
 {% for company in companies %}
-    {{ '\t - ' + company.get('name') + '(Email: ' + (company.get('contact_email') if company['contact_email'] else '-')  + '), Tel: ('  + (company.get('phone') if company['phone'] else '-') + ') expiring on ' + company['expiry_date'].strftime('%Y-%m-%d') }}
+    {{ '\t - ' + company.get('name') + '(Email: ' + (company.get('contact_email') if company['contact_email'] else '-')  + '), Tel: ('  + (company.get('phone') if company['phone'] else '-') + ') expiring on ' + (company['expiry_date'] | datetime_short) }}
 {% endfor %}
