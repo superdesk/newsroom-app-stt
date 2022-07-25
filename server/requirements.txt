@@ -1,1 +1,1 @@
-git+https://github.com/superdesk/newsroom-core.git@c04a45c#egg=Newsroom-Core
+git+https://github.com/superdesk/newsroom-core.git@develop#egg=Newsroom-Core
