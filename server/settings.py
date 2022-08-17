@@ -1,5 +1,6 @@
 import pathlib
 
+from flask_babel import lazy_gettext
 from newsroom.web.default_settings import ELASTICSEARCH_SETTINGS, BLUEPRINTS as DEFAULT_BLUEPRINT, \
     CORE_APPS as DEFAULT_CORE_APPS, CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT
 
@@ -18,6 +19,36 @@ CONTACT_ADDRESS_EN = 'https://stt.fi/en/contact/'
 INSTALLED_APPS = [
     'stt.external_links',
     'stt.filters',
+]
+
+AGENDA_GROUPS = [
+    {
+        "field": "sttdepartment",
+        "label": lazy_gettext("Department"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttdepartment",
+        },
+    },
+    {
+        "field": "sttsub",
+        "label": lazy_gettext("Subject"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttsub",
+        },
+    },
+    {
+        "field": "event_type",
+        "label": lazy_gettext("Event Type"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "event_type",
+        },
+    },
 ]
 
 CORE_APPS = [
