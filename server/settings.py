@@ -32,12 +32,12 @@ AGENDA_GROUPS = [
         },
     },
     {
-        "field": "sttsub",
+        "field": "sttsubj",
         "label": lazy_gettext("Subject"),
         "nested": {
             "parent": "subject",
             "field": "scheme",
-            "value": "sttsub",
+            "value": "sttsubj",
         },
     },
     {
