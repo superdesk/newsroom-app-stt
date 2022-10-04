@@ -29,6 +29,7 @@ AGENDA_GROUPS = [
             "parent": "subject",
             "field": "scheme",
             "value": "sttdepartment",
+            "include_planning": True,
         },
     },
     {
@@ -38,6 +39,7 @@ AGENDA_GROUPS = [
             "parent": "subject",
             "field": "scheme",
             "value": "sttsubj",
+            "include_planning": True,
         },
     },
     {
