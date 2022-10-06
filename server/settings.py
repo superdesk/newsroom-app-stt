@@ -53,6 +53,31 @@ AGENDA_GROUPS = [
     },
 ]
 
+WIRE_GROUPS = [
+    {
+        "field": "sttdepartment",
+        "label": lazy_gettext("Department"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttdepartment",
+        },
+    },
+    {
+        "field": "genre",
+        "label": lazy_gettext("Genre"),
+    },
+    {
+        "field": "sttversion",
+        "label": lazy_gettext("Version"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttversion",
+        },
+    },
+]
+
 CORE_APPS = [
     app
     for app in DEFAULT_CORE_APPS
