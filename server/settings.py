@@ -82,7 +82,6 @@ CORE_APPS = [
     app
     for app in DEFAULT_CORE_APPS
     if app not in [
-        'newsroom.media_utils',
         'newsroom.news_api',
         'newsroom.news_api.api_tokens',
         'newsroom.news_api.api_audit',
