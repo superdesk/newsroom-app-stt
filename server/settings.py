@@ -6,6 +6,7 @@ from newsroom.web.default_settings import ELASTICSEARCH_SETTINGS, BLUEPRINTS as 
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
 CLIENT_PATH = SERVER_PATH.parent.joinpath("client")
+TRANSLATIONS_PATH = SERVER_PATH.joinpath("translations")
 
 SITE_NAME = 'Mediapankki'
 COPYRIGHT_HOLDER = 'STT'
