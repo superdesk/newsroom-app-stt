@@ -1,10 +1,12 @@
 import pathlib
 
+from flask_babel import lazy_gettext
 from newsroom.web.default_settings import ELASTICSEARCH_SETTINGS, BLUEPRINTS as DEFAULT_BLUEPRINT, \
     CORE_APPS as DEFAULT_CORE_APPS, CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
 CLIENT_PATH = SERVER_PATH.parent.joinpath("client")
+TRANSLATIONS_PATH = SERVER_PATH.joinpath("translations")
 
 SITE_NAME = 'Mediapankki'
 COPYRIGHT_HOLDER = 'STT'
@@ -20,11 +22,67 @@ INSTALLED_APPS = [
     'stt.filters',
 ]
 
+AGENDA_GROUPS = [
+    {
+        "field": "sttdepartment",
+        "label": lazy_gettext("Department"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttdepartment",
+            "include_planning": True,
+        },
+    },
+    {
+        "field": "sttsubj",
+        "label": lazy_gettext("Subject"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttsubj",
+            "include_planning": True,
+        },
+    },
+    {
+        "field": "event_type",
+        "label": lazy_gettext("Event Type"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "event_type",
+        },
+    },
+]
+
+WIRE_GROUPS = [
+    {
+        "field": "sttdepartment",
+        "label": lazy_gettext("Department"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttdepartment",
+        },
+    },
+    {
+        "field": "genre",
+        "label": lazy_gettext("Genre"),
+    },
+    {
+        "field": "sttversion",
+        "label": lazy_gettext("Version"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "sttversion",
+        },
+    },
+]
+
 CORE_APPS = [
     app
     for app in DEFAULT_CORE_APPS
     if app not in [
-        'newsroom.agenda',
         'newsroom.news_api',
         'newsroom.news_api.api_tokens',
         'newsroom.news_api.api_audit',
@@ -39,7 +97,6 @@ BLUEPRINTS = [
     if blueprint not in [
         'newsroom.monitoring',
         'newsroom.news_api.api_tokens',
-        'newsroom.agenda',
     ]
 ]
 

@@ -1,0 +1,56 @@
+# Translations template for Newsroom App STT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the Newsroom App STT
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Newsroom App STT 0.0.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-11-29 14:05+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: theme/footer.html:3
+msgid "Support"
+msgstr ""
+
+#: theme/footer.html:5
+msgid "Privacy Policy"
+msgstr ""
+
+#: theme/footer.html:6
+msgid "Terms and Conditions"
+msgstr ""
+
+#: theme/footer.html:7
+msgid "Contact Us"
+msgstr ""
+
+#: settings.py:28 settings.py:60
+msgid "Department"
+msgstr ""
+
+#: settings.py:38
+msgid "Subject"
+msgstr ""
+
+#: settings.py:48
+msgid "Event Type"
+msgstr ""
+
+#: settings.py:69
+msgid "Genre"
+msgstr ""
+
+#: settings.py:73
+msgid "Version"
+msgstr ""
+

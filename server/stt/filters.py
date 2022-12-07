@@ -1,12 +1,13 @@
 import superdesk
 
-from flask_babel import gettext
 from superdesk.resource import not_analyzed
 from newsroom.signals import publish_item
 from eve_elastic.elastic import parse_date
 from copy import copy
 
-STT_FIELDS = ['sttdepartment', 'sttversion', 'sttgenre', 'sttdone1']
+STT_NESTED_FIELDS = ["sttdepartment", "sttversion"]
+STT_ROOT_FIELDS = ["sttgenre", "sttdone1"]
+STT_FIELDS = STT_NESTED_FIELDS + STT_ROOT_FIELDS
 
 
 def get_previous_version(app, guid, version):
@@ -70,7 +71,7 @@ def init_app(app):
     publish_item.connect(on_publish_item)
 
     # add extra fields to elastic mapping
-    for field in STT_FIELDS:
+    for field in STT_ROOT_FIELDS:
         for resource in ('items', 'content_api'):
             app.config['DOMAIN'][resource]['schema'].update({
                 field: {'type': 'string', 'mapping': not_analyzed},
@@ -83,18 +84,3 @@ def init_app(app):
         app.config['WIRE_AGGS'].update({
             field: {'terms': {'field': field, 'size': 50}},
         })
-
-    app.config['WIRE_GROUPS'] = [
-        {
-            'field': 'sttdepartment',
-            'label': gettext('Department'),
-        },
-        {
-            'field': 'genre',
-            'label': gettext('Genre'),
-        },
-        {
-            'field': 'sttversion',
-            'label': gettext('Version'),
-        },
-    ]
