@@ -89,5 +89,18 @@
                 "displayed": false
             }
         }
+    },
+    {
+        "_id": "agenda",
+        "init_version": 1,
+        "subnav": {
+            "filters": [
+                "item_type",
+                "calendar",
+                "location",
+                "coverage_type",
+                "coverage_status"
+            ]
+        }
     }
 ]
