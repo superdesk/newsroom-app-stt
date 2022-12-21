@@ -112,7 +112,7 @@ COMPANY_TYPES = [
     dict(
         id='non-premium',
         name='Non-premium',
-        wire_must_not={'bool': {'must': [  # filter out
+        wire_must_not={'bool': {'filter': [  # filter out
             {'term': {'sttdone1': '5'}},  # premium
             {'range': {'embargoed': {'gte': 'now'}}},  # with embargo
         ]}},
