@@ -32,9 +32,9 @@ blinker==1.4
     #   raven
     #   sentry-sdk
     #   superdesk-core
-boto3==1.26.10
+boto3==1.26.35
     # via superdesk-core
-botocore==1.29.10
+botocore==1.29.35
     # via
     #   boto3
     #   s3transfer
@@ -48,7 +48,7 @@ cerberus==1.3.4
     # via
     #   eve
     #   superdesk-core
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   elastic-apm
     #   elasticsearch
@@ -70,7 +70,7 @@ click==7.1.2
     #   pyhanko
 croniter==0.3.37
     # via superdesk-core
-cryptography==38.0.3
+cryptography==38.0.4
     # via
     #   authlib
     #   jwcrypto
@@ -78,7 +78,7 @@ cryptography==38.0.3
     #   pyhanko-certvalidator
 cssselect2==0.7.0
     # via svglib
-deepdiff==6.2.1
+deepdiff==6.2.2
     # via superdesk-planning
 deprecated==1.2.13
     # via
@@ -94,7 +94,7 @@ elasticsearch==7.13.4
     # via eve-elastic
 eve==1.1.2
     # via superdesk-core
-eve-elastic==7.3.0
+eve-elastic==7.3.1
     # via superdesk-core
 events==0.3
     # via eve
@@ -177,7 +177,7 @@ kombu==4.6.11
     #   superdesk-core
 ldap3==2.5.2
     # via superdesk-core
-limits==2.7.1
+limits==2.7.2
     # via flask-limiter
 lxml==4.6.5
     # via
@@ -203,7 +203,7 @@ ordered-set==4.1.0
     # via deepdiff
 oscrypto==1.3.0
     # via pyhanko-certvalidator
-packaging==21.3
+packaging==22.0
     # via limits
 pillow==9.2.0
     # via
@@ -220,9 +220,9 @@ pyasn1-modules==0.2.8
     # via oauth2client
 pycparser==2.21
     # via cffi
-pyhanko==0.15.1
+pyhanko==0.16.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.19.6
+pyhanko-certvalidator==0.19.8
     # via
     #   pyhanko
     #   xhtml2pdf
@@ -235,7 +235,6 @@ pymongo==3.11.4
 pyparsing==3.0.9
     # via
     #   httplib2
-    #   packaging
     #   pyrtf3
 pypdf3==1.0.6
     # via xhtml2pdf
@@ -256,7 +255,7 @@ python-magic==0.4.27
     # via superdesk-core
 python-twitter==3.5
     # via superdesk-core
-pytz==2022.6
+pytz==2022.7
     # via
     #   babel
     #   celery
