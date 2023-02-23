@@ -1,4 +1,5 @@
 
+import bson
 import hmac
 from flask import json
 from newsroom.utils import get_entity_or_404
@@ -89,6 +90,10 @@ def test_push_new_versions_will_update_ancestors(client, app):
     parsed = get_entity_or_404(item['guid'], 'items')
     assert parsed['version'] == '1'
 
+    bookmarks = [str(bson.ObjectId())]
+    saved = get_entity_or_404(item["guid"], 'items')
+    app.data.update("items", saved['_id'], {"bookmarks": bookmarks}, saved)
+
     # post the new version of the story, it will update the ancestors
     payload['version'] = '2'
     payload['headline'] = 'bar'
@@ -98,6 +103,7 @@ def test_push_new_versions_will_update_ancestors(client, app):
     assert new_story['version'] == '2'
     assert new_story['ancestors'] == ['foo']
     assert new_story['headline'] == 'bar'
+    assert new_story['bookmarks'] == bookmarks
     assert original_story['nextversion'] == 'foo:2'
 
     # post the same version of the story, it will update keep ancestors but update the current story
@@ -108,4 +114,5 @@ def test_push_new_versions_will_update_ancestors(client, app):
     assert new_story['version'] == '2'
     assert new_story['ancestors'] == ['foo']
     assert new_story['headline'] == 'baz'
+    assert new_story['bookmarks'] == bookmarks
     assert original_story['nextversion'] == 'foo:2'

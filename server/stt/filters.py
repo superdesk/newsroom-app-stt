@@ -13,11 +13,11 @@ STT_FIELDS = STT_NESTED_FIELDS + STT_ROOT_FIELDS
 def get_previous_version(app, guid, version):
     for i in range(int(version) - 1, 1, -1):
         id = "{}:{}".format(guid, i)
-        original = app.data.find_one('wire_search', req=None, _id=id)
+        original = app.data.find_one('items', req=None, _id=id)
         if original:
             return original
 
-    return app.data.find_one('wire_search', req=None, _id=guid)
+    return app.data.find_one('items', req=None, _id=guid)
 
 
 def on_publish_item(app, item, is_new, **kwargs):
