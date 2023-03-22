@@ -1,0 +1,52 @@
+{%- if item.name %}{{ item.name }}
+{% endif %}
+{%- if item.dates %}Päivämäärä: {{ item.dates.start | datetime_short }} - {{ item.dates.end | datetime_short }}
+{% endif %}
+{%- if location %}Sijainti: {{ location }}
+{% endif %}
+{%- if item.ednote %}Huomautus: {{ item.ednote }}
+{% endif %}
+{%- if item.definition_short %}Kuvaus: {{ item.definition_short | plain_text }}
+{% endif -%}
+{%- if item.invitation_details %}Alkuperäinen kutsu: {{ item.invitation_details | plain_text }}
+{% endif -%}
+{%- if item.registration_details %}Järjestäjän antamaa lisätietoa: {{ item.registration_details | plain_text }}
+{% endif -%}
+{%- if contacts | length is gt 0 %}
+
+Yhteyshenkilöt
+{%- for contact in contacts %}
+Nimi: {{ contact.name }}
+{% if contact.organisation %}Organisaatio: {{ contact.organisation }}
+{% endif %}
+{%- if contact.email %}Sähköposti: {{ contact.email }}
+{% endif %}
+{%- if contact.phone %}Puhelin: {{ contact.phone }}
+{% endif %}
+{%- if contact.mobile %}Matkapuhelin: {{ contact.mobile }}
+{% endif %}
+{%- endfor %}
+{%- endif %}
+{%- if calendars %}
+
+Osastot: {{ calendars }}
+{% endif -%}
+{%- if item.planning_items | length is gt 0 -%}
+{%- for plan in item.planning_items %}
+
+Suunnittelutieto
+{%- if plan.description_text %}
+Kuvaus: {{ plan.description_text | plain_text }}
+{% endif -%}
+{%- for coverage in plan.coverages %}
+{% if coverage.planning.g2_content_type %}Sisältötyyppi: {{ coverage.planning.g2_content_type }}
+{% endif %}
+{%- if coverage.planning.scheduled %}Suunniteltu: {{ coverage.planning.scheduled | datetime_short }}
+{% endif %}
+{%- if coverage.workflow_status %}Tila: {{ coverage.workflow_status }}
+{% endif -%}
+{%- if coverage.planning.description_text %}Kuvaus: {{ coverage.planning.description_text }}
+{% endif -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endif -%}
