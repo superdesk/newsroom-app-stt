@@ -20,6 +20,7 @@ CONTACT_ADDRESS_EN = 'https://stt.fi/en/contact/'
 INSTALLED_APPS = [
     'stt.external_links',
     'stt.filters',
+    'newsroom.auth.saml',
 ]
 
 AGENDA_GROUPS = [
@@ -137,3 +138,7 @@ NEWS_API_ENABLED = False
 ELASTICSEARCH_SETTINGS['settings']['query_string'] = {'analyze_wildcard': True}
 
 PREPEND_EMBARGOED_TO_WIRE_SEARCH = True
+
+SAML_CLIENTS = [
+    "eduskunta",
+]

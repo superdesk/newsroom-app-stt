@@ -1,0 +1,15 @@
+{% extends "layout_login.html" %}
+
+{% block login_title %}
+<h5 class="mb-0">{{ gettext("Login") }}</h5>
+{% endblock %}
+
+{% block login_content %}
+<div class="card-body pt-1">
+    <a href="{{ url_for('auth.saml') }}" title="{{ gettext('Login using Single Sign On') }}" class="btn btn-primary link w-100">{{ config.SAML_LABEL }}</a>
+</div>
+
+<div class="card-footer bg-white border-0 text-muted small">
+    <p>Palveluun kirjaudutaan organisaatiosi Microsoft-tunnuksilla. Jos sinulla on vaikeuksia kirjautumisen kanssa, ota yhteyttä organisaatiosi IT-tukeen.</p>
+</div>
+{% endblock %}
