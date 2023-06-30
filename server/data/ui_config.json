@@ -101,6 +101,11 @@
                 "coverage_type",
                 "coverage_status"
             ]
+        },
+        "list": {
+            "subject": {
+                "scheme": ["stturgency"]
+            }
         }
     }
 ]
