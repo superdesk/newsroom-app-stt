@@ -53,6 +53,16 @@ AGENDA_GROUPS = [
             "value": "event_type",
         },
     },
+    {
+        "field": "stturgency",
+        "label": lazy_gettext("Importance"),
+        "nested": {
+            "parent": "subject",
+            "field": "scheme",
+            "value": "stturgency",
+            "include_planning": True,
+        },
+    },
 ]
 
 WIRE_GROUPS = [
