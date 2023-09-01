@@ -34,9 +34,9 @@ blinker==1.4
     #   raven
     #   sentry-sdk
     #   superdesk-core
-boto3==1.28.30
+boto3==1.28.38
     # via superdesk-core
-botocore==1.31.30
+botocore==1.31.38
     # via
     #   boto3
     #   s3transfer
@@ -108,7 +108,7 @@ elasticsearch==7.13.4
     # via eve-elastic
 eve==1.1.2
     # via superdesk-core
-eve-elastic==7.3.1
+eve-elastic==7.3.2
     # via
     #   newsroom-core
     #   superdesk-core
@@ -197,7 +197,7 @@ kombu==5.2.4
     #   superdesk-core
 ldap3==2.5.2
     # via superdesk-core
-limits==3.5.0
+limits==3.6.0
     # via flask-limiter
 lxml==4.6.5
     # via
@@ -260,7 +260,7 @@ pyparsing==3.1.1
     # via
     #   httplib2
     #   pyrtf3
-pypdf==3.15.2
+pypdf==3.15.4
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -361,7 +361,7 @@ tzlocal==2.1
     #   superdesk-core
 unidecode==0.4.21
     # via superdesk-core
-uritools==4.0.1
+uritools==4.0.2
     # via pyhanko-certvalidator
 urllib3==1.25.11
     # via
