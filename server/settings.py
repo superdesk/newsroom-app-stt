@@ -145,6 +145,8 @@ COMPANY_TYPES = [
     ),
 ]
 
+SHOW_DATE = False
+
 WATERMARK_IMAGE = None
 
 CELERY_BEAT_SCHEDULE = {
