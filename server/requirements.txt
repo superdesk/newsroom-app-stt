@@ -21,7 +21,7 @@ async-timeout==4.0.3
     # via redis
 authlib==0.14.3
     # via superdesk-core
-babel==2.12.1
+babel==2.13.0
     # via flask-babel
 bcrypt==3.1.7
     # via superdesk-core
@@ -34,9 +34,9 @@ blinker==1.4
     #   raven
     #   sentry-sdk
     #   superdesk-core
-boto3==1.28.39
+boto3==1.28.58
     # via superdesk-core
-botocore==1.31.39
+botocore==1.31.58
     # via
     #   boto3
     #   s3transfer
@@ -56,13 +56,13 @@ certifi==2023.7.22
     #   elasticsearch
     #   requests
     #   sentry-sdk
-cffi==1.15.1
+cffi==1.16.0
     # via
     #   bcrypt
     #   cryptography
 chardet==3.0.4
     # via superdesk-core
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
     # via requests
 ciso8601==1.0.8
     # via eve-elastic
@@ -84,7 +84,7 @@ click-repl==0.3.0
     # via celery
 croniter==0.3.37
     # via superdesk-core
-cryptography==41.0.3
+cryptography==41.0.4
     # via
     #   authlib
     #   jwcrypto
@@ -92,7 +92,7 @@ cryptography==41.0.3
     #   pyhanko-certvalidator
 cssselect2==0.7.0
     # via svglib
-deepdiff==6.4.0
+deepdiff==6.5.0
     # via superdesk-planning
 deprecated==1.2.14
     # via
@@ -168,7 +168,7 @@ icalendar==4.0.9
     # via superdesk-planning
 idna==3.4
     # via requests
-importlib-resources==6.0.1
+importlib-resources==6.1.0
     # via limits
 isodate==0.6.1
     # via python3-saml
@@ -215,7 +215,7 @@ mongolock==1.3.4
     # via superdesk-core
 natsort==8.4.0
     # via croniter
-newsroom-core @ git+https://github.com/superdesk/newsroom-core.git@develop
+newsroom-core @ git+https://github.com/superdesk/newsroom-core.git@v2.5-rc2
     # via -r requirements.in
 oauth2client==4.1.3
     # via flask-oidc-ex
@@ -225,7 +225,7 @@ ordered-set==4.1.0
     # via deepdiff
 oscrypto==1.3.0
     # via pyhanko-certvalidator
-packaging==23.1
+packaging==23.2
     # via limits
 pillow==9.2.0
     # via
@@ -250,6 +250,8 @@ pyhanko-certvalidator==0.22.0
     # via
     #   pyhanko
     #   xhtml2pdf
+pymemcache==4.0.0
+    # via superdesk-core
 pymongo==3.11.4
     # via
     #   eve
@@ -260,7 +262,7 @@ pyparsing==3.1.1
     # via
     #   httplib2
     #   pyrtf3
-pypdf==3.15.4
+pypdf==3.16.2
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -283,7 +285,7 @@ python-twitter==3.5
     # via superdesk-core
 python3-saml==1.15.0
     # via newsroom-core
-pytz==2023.3
+pytz==2023.3.post1
     # via
     #   celery
     #   eve-elastic
@@ -322,7 +324,7 @@ requests-oauthlib==1.3.1
     # via python-twitter
 rsa==4.9
     # via oauth2client
-s3transfer==0.6.2
+s3transfer==0.7.0
     # via boto3
 sentry-sdk[flask]==1.5.12
     # via newsroom-core
@@ -350,7 +352,7 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   svglib
-typing-extensions==4.7.1
+typing-extensions==4.8.0
     # via
     #   limits
     #   qrcode
@@ -376,7 +378,7 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
-wcwidth==0.2.6
+wcwidth==0.2.8
     # via prompt-toolkit
 webencodings==0.5.1
     # via
