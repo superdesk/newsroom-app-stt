@@ -6,6 +6,7 @@ from newsroom.web.default_settings import (
     BLUEPRINTS as DEFAULT_BLUEPRINT,
     CORE_APPS as DEFAULT_CORE_APPS,
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
+    CLIENT_LOCALE_FORMATS,
 )
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
@@ -167,3 +168,19 @@ PREPEND_EMBARGOED_TO_WIRE_SEARCH = True
 SAML_CLIENTS = [
     "eduskunta",
 ]
+
+CLIENT_LOCALE_FORMATS["fi"] = {
+    "TIME_FORMAT": "H.mm",
+    "DATE_FORMAT": "D.M.YYYY",
+    "DATETIME_FORMAT": "H.mm D.M.YYYY",
+    "COVERAGE_DATE_FORMAT": "LL",
+    "COVERAGE_DATE_TIME_FORMAT": "HH.mm d.M.YYYY",
+    "AGENDA_DATE_FORMAT_SHORT": "d.M",
+    "AGENDA_DATE_FORMAT_LONG": "d.M.YYYY",
+
+    # server formats
+    "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
+    "NOTIFICATION_EMAIL_TIME_FORMAT": "H.mm",
+    "NOTIFICATION_EMAIL_DATE_FORMAT": "d.M.yyyy",
+    "NOTIFICATION_EMAIL_DATETIME_FORMAT": "d.M.yyyy klo H.mm",
+}
