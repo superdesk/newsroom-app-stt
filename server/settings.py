@@ -175,8 +175,6 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "DATETIME_FORMAT": "H.mm D.M.YYYY",
     "COVERAGE_DATE_FORMAT": "LL",
     "COVERAGE_DATE_TIME_FORMAT": "HH.mm d.M.YYYY",
-    "AGENDA_DATE_FORMAT_SHORT": "d.M",
-    "AGENDA_DATE_FORMAT_LONG": "d.M.YYYY",
 
     # server formats
     "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
