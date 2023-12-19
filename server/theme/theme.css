@@ -41,6 +41,9 @@
 .wire-column__preview__content .wire-articles__item__meta-info {
     flex-direction: column;
 }
+.login-logo {
+    flex-direction: column;
+}
 
 @media only screen and (min-width: 576px) {
     .font-stt {
