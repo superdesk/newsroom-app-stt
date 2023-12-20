@@ -25,6 +25,7 @@ CONTACT_ADDRESS_EN = "https://stt.fi/en/contact/"
 INSTALLED_APPS = [
     "stt.external_links",
     "stt.filters",
+    "stt.signals",
     "newsroom.auth.saml",
 ]
 
