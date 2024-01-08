@@ -1,3 +1,4 @@
+import os
 import pathlib
 
 from flask_babel import lazy_gettext
@@ -95,6 +96,13 @@ WIRE_GROUPS = [
     },
 ]
 
+WIRE_AGGS = {
+    "genre": {"terms": {"field": "genre.name", "size": 50}},
+    "_subject": {
+        "terms": {"field": "subject.name", "size": 50}
+    },  # it's needed for nested groups
+}
+
 CORE_APPS = [
     app
     for app in DEFAULT_CORE_APPS
@@ -175,10 +183,15 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "DATETIME_FORMAT": "H.mm D.M.YYYY",
     "COVERAGE_DATE_FORMAT": "LL",
     "COVERAGE_DATE_TIME_FORMAT": "HH.mm d.M.YYYY",
-
     # server formats
     "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
     "NOTIFICATION_EMAIL_TIME_FORMAT": "H.mm",
     "NOTIFICATION_EMAIL_DATE_FORMAT": "d.M.yyyy",
     "NOTIFICATION_EMAIL_DATETIME_FORMAT": "d.M.yyyy klo H.mm",
 }
+
+ELASTICSEARCH_TRACK_TOTAL_HITS = (
+    int(os.environ["ELASTICSEARCH_TRACK_TOTAL_HITS"])
+    if os.environ.get("ELASTICSEARCH_TRACK_TOTAL_HITS")
+    else True
+)

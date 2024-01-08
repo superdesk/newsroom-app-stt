@@ -80,7 +80,3 @@ def init_app(app):
             app.config['SOURCES'][resource]['projection'].update({
                 field: 1,
             })
-
-        app.config['WIRE_AGGS'].update({
-            field: {'terms': {'field': field, 'size': 50}},
-        })
