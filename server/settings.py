@@ -2,12 +2,14 @@ import os
 import pathlib
 
 from flask_babel import lazy_gettext
+from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
     BLUEPRINTS as DEFAULT_BLUEPRINT,
     CORE_APPS as DEFAULT_CORE_APPS,
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
     CLIENT_LOCALE_FORMATS,
+    AUTH_PROVIDERS,
 )
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
@@ -195,3 +197,9 @@ ELASTICSEARCH_TRACK_TOTAL_HITS = (
     if os.environ.get("ELASTICSEARCH_TRACK_TOTAL_HITS")
     else True
 )
+
+AUTH_PROVIDERS.append({
+    "_id": "azure",
+    "name": lazy_gettext("Azure"),
+    "auth_type": AuthProviderType.SAML.value,
+})
