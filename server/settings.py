@@ -183,8 +183,9 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "TIME_FORMAT": "H.mm",
     "DATE_FORMAT": "D.M.YYYY",
     "DATETIME_FORMAT": "H.mm D.M.YYYY",
-    "COVERAGE_DATE_FORMAT": "LL",
-    "COVERAGE_DATE_TIME_FORMAT": "HH.mm d.M.YYYY",
+    "COVERAGE_DATE_FORMAT": "D.M.YYYY",
+    "COVERAGE_DATE_TIME_FORMAT": "H.mm D.M.YYYY",
+
     # server formats
     "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
     "NOTIFICATION_EMAIL_TIME_FORMAT": "H.mm",
