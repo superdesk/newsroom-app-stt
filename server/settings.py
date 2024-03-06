@@ -5,6 +5,7 @@ from flask_babel import lazy_gettext
 from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
+    CONTENTAPI_ELASTICSEARCH_SETTINGS,
     BLUEPRINTS as DEFAULT_BLUEPRINT,
     CORE_APPS as DEFAULT_CORE_APPS,
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
@@ -204,3 +205,5 @@ AUTH_PROVIDERS.append({
     "name": lazy_gettext("Azure"),
     "auth_type": AuthProviderType.SAML.value,
 })
+
+CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"]["html_field_analyzer"]["filter"] = ["lowercase"]
