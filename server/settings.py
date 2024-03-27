@@ -1,12 +1,16 @@
+import os
 import pathlib
 
 from flask_babel import lazy_gettext
+from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
+    CONTENTAPI_ELASTICSEARCH_SETTINGS,
     BLUEPRINTS as DEFAULT_BLUEPRINT,
     CORE_APPS as DEFAULT_CORE_APPS,
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
     CLIENT_LOCALE_FORMATS,
+    AUTH_PROVIDERS,
 )
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
@@ -96,6 +100,13 @@ WIRE_GROUPS = [
     },
 ]
 
+WIRE_AGGS = {
+    "genre": {"terms": {"field": "genre.name", "size": 50}},
+    "_subject": {
+        "terms": {"field": "subject.name", "size": 50}
+    },  # it's needed for nested groups
+}
+
 CORE_APPS = [
     app
     for app in DEFAULT_CORE_APPS
@@ -174,8 +185,8 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "TIME_FORMAT": "H.mm",
     "DATE_FORMAT": "D.M.YYYY",
     "DATETIME_FORMAT": "H.mm D.M.YYYY",
-    "COVERAGE_DATE_FORMAT": "LL",
-    "COVERAGE_DATE_TIME_FORMAT": "HH.mm d.M.YYYY",
+    "COVERAGE_DATE_FORMAT": "D.M.YYYY",
+    "COVERAGE_DATE_TIME_FORMAT": "H.mm D.M.YYYY",
 
     # server formats
     "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
@@ -183,3 +194,17 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "NOTIFICATION_EMAIL_DATE_FORMAT": "d.M.yyyy",
     "NOTIFICATION_EMAIL_DATETIME_FORMAT": "d.M.yyyy klo H.mm",
 }
+
+ELASTICSEARCH_TRACK_TOTAL_HITS = (
+    int(os.environ["ELASTICSEARCH_TRACK_TOTAL_HITS"])
+    if os.environ.get("ELASTICSEARCH_TRACK_TOTAL_HITS")
+    else True
+)
+
+AUTH_PROVIDERS.append({
+    "_id": "azure",
+    "name": lazy_gettext("Azure"),
+    "auth_type": AuthProviderType.SAML.value,
+})
+
+CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"]["html_field_analyzer"]["filter"] = ["lowercase"]
