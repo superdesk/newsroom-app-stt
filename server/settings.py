@@ -204,7 +204,7 @@ ELASTICSEARCH_TRACK_TOTAL_HITS = (
 AUTH_PROVIDERS.append({
     "_id": "azure",
     "name": lazy_gettext("Azure"),
-    "auth_type": AuthProviderType.SAML.value,
+    "auth_type": AuthProviderType.SAML,
 })
 
 CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"]["html_field_analyzer"]["filter"] = ["lowercase"]
