@@ -187,7 +187,6 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "DATETIME_FORMAT": "H.mm D.M.YYYY",
     "COVERAGE_DATE_FORMAT": "D.M.YYYY",
     "COVERAGE_DATE_TIME_FORMAT": "H.mm D.M.YYYY",
-
     # server formats
     "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
     "NOTIFICATION_EMAIL_TIME_FORMAT": "H.mm",
@@ -201,10 +200,16 @@ ELASTICSEARCH_TRACK_TOTAL_HITS = (
     else True
 )
 
-AUTH_PROVIDERS.append({
-    "_id": "azure",
-    "name": lazy_gettext("Azure"),
-    "auth_type": AuthProviderType.SAML,
-})
+AUTH_PROVIDERS.append(
+    {
+        "_id": "azure",
+        "name": lazy_gettext("Azure"),
+        "auth_type": AuthProviderType.SAML,
+    }
+)
 
-CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"]["html_field_analyzer"]["filter"] = ["lowercase"]
+CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"][
+    "html_field_analyzer"
+]["filter"] = ["lowercase"]
+
+SAML_AUTH_ENABLED = bool(os.environ.get("SAML_PATH", False))
