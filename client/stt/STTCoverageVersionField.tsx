@@ -3,7 +3,7 @@ import * as React from 'react';
 import {ICoverageMetadataPreviewProps} from 'newsroom-core/assets/interfaces';
 import {exposed} from 'newsroom-core';
 
-export function STTCoverageVersionPreviewField({coverage, fullCoverage}: ICoverageMetadataPreviewProps) {
+export function STTCoverageVersionField({coverage, fullCoverage}: ICoverageMetadataPreviewProps) {
     const {gettext} = exposed.locale;
 
     if (fullCoverage == null) {

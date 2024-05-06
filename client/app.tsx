@@ -1,4 +1,4 @@
 import {exposed} from 'newsroom-core';
-import {STTCoverageVersionPreviewField} from './stt/STTCoverageVersionPreviewField';
+import {STTCoverageVersionField} from './stt/STTCoverageVersionField';
 
-exposed.agenda.registerCoveragePreviewFieldComponent('sttversion', STTCoverageVersionPreviewField);
+exposed.agenda.registerCoverageFieldComponent('sttversion', STTCoverageVersionField);
