@@ -92,7 +92,7 @@
     },
     {
         "_id": "agenda",
-        "init_version": 3,
+        "init_version": 4,
         "subnav": {
             "filters": [
                 "item_type",
@@ -109,6 +109,38 @@
             "contacts": {
                 "displayed": false
             }
+        },
+        "preview": {
+            "coverage_metadata_fields": [
+                "coverage_header",
+                "sttversion",
+                "coverage_expected_date",
+                "coverage_provider",
+                "coverage_wire_text",
+                "coverage_update_coming",
+                "coverage_status",
+                "coverage_scheduled_status",
+                "coverage_ednote",
+                "coverage_workflow_reason",
+                "coverage_internal_note",
+                "coverage_actions"
+            ]
+        },
+        "details": {
+            "coverage_metadata_fields": [
+                "coverage_header",
+                "sttversion",
+                "coverage_expected_date",
+                "coverage_provider",
+                "coverage_wire_text",
+                "coverage_update_coming",
+                "coverage_status",
+                "coverage_scheduled_status",
+                "coverage_ednote",
+                "coverage_workflow_reason",
+                "coverage_internal_note",
+                "coverage_actions"
+            ]
         }
     }
 ]

@@ -208,3 +208,5 @@ AUTH_PROVIDERS.append({
 })
 
 CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"]["html_field_analyzer"]["filter"] = ["lowercase"]
+
+AGENDA_HIDE_COVERAGE_ASSIGNEES = True

@@ -1,0 +1,6 @@
+{
+    "extends": "newsroom-core/tsconfig",
+    "include": [
+        "."
+    ],
+}
