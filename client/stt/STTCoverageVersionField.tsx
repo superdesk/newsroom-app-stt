@@ -11,7 +11,7 @@ export function STTCoverageVersionField({coverage, fullCoverage}: ICoverageMetad
         return null;
     }
 
-    const sttVersion = (fullCoverage.planning?.subjects || []).filter(
+    const sttVersion = (fullCoverage.planning?.subject || []).filter(
         (subject) => subject.scheme === 'sttversion'
     );
 
