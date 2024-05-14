@@ -43,6 +43,7 @@ AGENDA_GROUPS = [
             "value": "sttdepartment",
             "include_planning": True,
         },
+        "permissions": [],
     },
     {
         "field": "sttsubj",
@@ -53,6 +54,7 @@ AGENDA_GROUPS = [
             "value": "sttsubj",
             "include_planning": True,
         },
+        "permissions": [],
     },
     {
         "field": "event_type",
@@ -62,6 +64,7 @@ AGENDA_GROUPS = [
             "field": "scheme",
             "value": "event_type",
         },
+        "permissions": [],
     },
     {
         "field": "stturgency",
@@ -72,6 +75,7 @@ AGENDA_GROUPS = [
             "value": "stturgency",
             "include_planning": True,
         },
+        "permissions": ["restrict_coverage_info"],
     },
 ]
 
@@ -187,7 +191,6 @@ CLIENT_LOCALE_FORMATS["fi"] = {
     "DATETIME_FORMAT": "H.mm D.M.YYYY",
     "COVERAGE_DATE_FORMAT": "D.M.YYYY",
     "COVERAGE_DATE_TIME_FORMAT": "H.mm D.M.YYYY",
-
     # server formats
     "DATE_FORMAT_HEADER": "d.M.yyyy H.mm",
     "NOTIFICATION_EMAIL_TIME_FORMAT": "H.mm",
@@ -201,12 +204,16 @@ ELASTICSEARCH_TRACK_TOTAL_HITS = (
     else True
 )
 
-AUTH_PROVIDERS.append({
-    "_id": "azure",
-    "name": lazy_gettext("Azure"),
-    "auth_type": AuthProviderType.SAML,
-})
+AUTH_PROVIDERS.append(
+    {
+        "_id": "azure",
+        "name": lazy_gettext("Azure"),
+        "auth_type": AuthProviderType.SAML,
+    }
+)
 
-CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"]["html_field_analyzer"]["filter"] = ["lowercase"]
+CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"][
+    "html_field_analyzer"
+]["filter"] = ["lowercase"]
 
 AGENDA_HIDE_COVERAGE_ASSIGNEES = True
