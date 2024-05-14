@@ -75,7 +75,7 @@ AGENDA_GROUPS = [
             "value": "stturgency",
             "include_planning": True,
         },
-        "permissions": ["restrict_coverage_info"],
+        "permissions": ["coverage_info"],
     },
 ]
 
