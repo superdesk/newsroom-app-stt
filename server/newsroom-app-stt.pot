@@ -1,22 +1,22 @@
 # Translations template for Newsroom App STT.
-# Copyright (C) 2022 ORGANIZATION
+# Copyright (C) 2024 ORGANIZATION
 # This file is distributed under the same license as the Newsroom App STT
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Newsroom App STT 0.0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-29 14:05+0100\n"
+"POT-Creation-Date: 2024-05-14 12:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.14.0\n"
 
 #: theme/footer.html:3
 msgid "Support"
@@ -34,23 +34,35 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: settings.py:28 settings.py:60
+#: theme/login_client.html:12
+msgid "Login using Single Sign On"
+msgstr ""
+
+#: settings.py:39 settings.py:81
 msgid "Department"
 msgstr ""
 
-#: settings.py:38
+#: settings.py:49
 msgid "Subject"
 msgstr ""
 
-#: settings.py:48
+#: settings.py:59
 msgid "Event Type"
 msgstr ""
 
-#: settings.py:69
+#: settings.py:68
+msgid "Importance"
+msgstr ""
+
+#: settings.py:90
 msgid "Genre"
 msgstr ""
 
-#: settings.py:73
+#: settings.py:94
 msgid "Version"
+msgstr ""
+
+#: settings.py:206
+msgid "Azure"
 msgstr ""
 
