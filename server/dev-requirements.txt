@@ -1,10 +1,10 @@
 -r requirements.txt
 
 flake8
-pytest==3.10.0
+pytest==8.2.0
 pytest-cov==2.6.1
-pytest-mock==1.10.1
-responses>=0.10.6,<0.11
+pytest-mock==3.14.0
+responses>=0.10.6,<0.26
 httmock
 wooper
 mypy
