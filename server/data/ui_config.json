@@ -92,7 +92,7 @@
     },
     {
         "_id": "agenda",
-        "init_version": 4,
+        "init_version": 5,
         "subnav": {
             "filters": [
                 "item_type",
@@ -100,7 +100,10 @@
                 "location",
                 "coverage_type",
                 "coverage_status"
-            ]
+            ],
+            "item_type": {
+                "events_only": false
+            }
         },
         "list": {
             "subject": {
