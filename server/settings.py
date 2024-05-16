@@ -217,3 +217,4 @@ CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"][
 ]["filter"] = ["lowercase"]
 
 AGENDA_HIDE_COVERAGE_ASSIGNEES = True
+AGENDA_DEFAULT_FILTER_HIDE_PLANNING = True
