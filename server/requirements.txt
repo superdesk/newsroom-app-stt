@@ -35,9 +35,9 @@ blinker==1.7.0
     #   raven
     #   sentry-sdk
     #   superdesk-core
-boto3==1.34.110
+boto3==1.34.113
     # via superdesk-core
-botocore==1.34.110
+botocore==1.34.113
     # via
     #   boto3
     #   s3transfer
@@ -248,7 +248,7 @@ pillow==9.2.0
     #   reportlab
     #   superdesk-core
     #   xhtml2pdf
-prompt-toolkit==3.0.43
+prompt-toolkit==3.0.45
     # via click-repl
 pyasn1==0.6.0
     # via
@@ -375,7 +375,7 @@ tinycss2==1.3.0
     # via
     #   cssselect2
     #   svglib
-typing-extensions==4.11.0
+typing-extensions==4.12.0
     # via
     #   jwcrypto
     #   limits
