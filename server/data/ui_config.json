@@ -92,7 +92,7 @@
     },
     {
         "_id": "agenda",
-        "init_version": 5,
+        "init_version": 6,
         "subnav": {
             "filters": [
                 "item_type",
