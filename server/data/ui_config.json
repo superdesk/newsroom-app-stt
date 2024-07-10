@@ -92,7 +92,7 @@
     },
     {
         "_id": "agenda",
-        "init_version": 5,
+        "init_version": 6,
         "subnav": {
             "filters": [
                 "item_type",
@@ -116,10 +116,8 @@
         "preview": {
             "coverage_metadata_fields": [
                 "coverage_header",
-                "sttversion",
                 "coverage_expected_date",
                 "coverage_provider",
-                "coverage_wire_text",
                 "coverage_update_coming",
                 "coverage_status",
                 "coverage_scheduled_status",
@@ -132,10 +130,8 @@
         "details": {
             "coverage_metadata_fields": [
                 "coverage_header",
-                "sttversion",
                 "coverage_expected_date",
                 "coverage_provider",
-                "coverage_wire_text",
                 "coverage_update_coming",
                 "coverage_status",
                 "coverage_scheduled_status",
