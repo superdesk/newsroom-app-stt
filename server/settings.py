@@ -6,6 +6,7 @@ from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
     CONTENTAPI_ELASTICSEARCH_SETTINGS,
+    CLIENT_CONFIG,
     BLUEPRINTS as DEFAULT_BLUEPRINT,
     CORE_APPS as DEFAULT_CORE_APPS,
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
@@ -19,6 +20,8 @@ TRANSLATIONS_PATH = SERVER_PATH.joinpath("translations")
 
 SITE_NAME = "Mediapankki"
 COPYRIGHT_HOLDER = "STT"
+
+CLIENT_CONFIG.update({"collapsed_search_by_default": True})
 
 USER_MANUAL = "https://stt.fi/ajankohtaista-tietoa-media-asiakkaille/stt-mediapankki/"
 PRIVACY_POLICY = PRIVACY_POLICY_EN = "https://stt.fi/tietosuoja/"
