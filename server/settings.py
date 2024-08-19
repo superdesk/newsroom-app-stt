@@ -220,5 +220,6 @@ CONTENTAPI_ELASTICSEARCH_SETTINGS["settings"]["analysis"]["analyzer"][
 ]["filter"] = ["lowercase"]
 
 AGENDA_HIDE_COVERAGE_ASSIGNEES = True
+AGENDA_DEFAULT_FILTER_HIDE_PLANNING = True
 
 SAML_AUTH_ENABLED = bool(os.environ.get("SAML_PATH", False))
