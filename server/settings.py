@@ -119,9 +119,6 @@ CORE_APPS = [
     for app in DEFAULT_CORE_APPS
     if app
     not in [
-        "newsroom.news_api",
-        "newsroom.news_api.api_tokens",
-        "newsroom.news_api.api_audit",
         "newsroom.monitoring",
         "newsroom.company_expiry_alerts",
     ]
@@ -133,7 +130,6 @@ BLUEPRINTS = [
     if blueprint
     not in [
         "newsroom.monitoring",
-        "newsroom.news_api.api_tokens",
     ]
 ]
 
@@ -177,7 +173,7 @@ CELERY_BEAT_SCHEDULE = {
 
 ENABLE_WATCH_LISTS = False
 
-NEWS_API_ENABLED = False
+NEWS_API_ENABLED = True
 
 # SDAN-695
 ELASTICSEARCH_SETTINGS["settings"]["query_string"] = {"analyze_wildcard": True}
