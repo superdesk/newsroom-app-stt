@@ -10,3 +10,5 @@ ABS_PATH = Path(__file__).resolve().parent
 CORE_APPS.extend([])
 INSTALLED_APPS.extend([])
 BLUEPRINTS.extend([])
+
+NEWS_API_ENABLED = True
