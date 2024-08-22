@@ -12,4 +12,3 @@ INSTALLED_APPS.extend([])
 BLUEPRINTS.extend([])
 
 NEWS_API_ENABLED = True
-
