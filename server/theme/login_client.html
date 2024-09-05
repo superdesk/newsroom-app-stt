@@ -1,19 +1,17 @@
-{% extends "layout_login.html" %}
+{% extends "login_layout.html" %}
 
-{% block title %}
-Eduskunta
-{% endblock %}
+{% block title %}Eduskunta{% endblock %}
 
-{% block login_title %}
-{% endblock %}
-
-{% block login_content %}
+{% block login_form %}
 <div class="card-body pt-1">
     <a href="{{ url_for('auth.saml') }}" title="{{ gettext('Login using Single Sign On') }}" class="btn btn-primary link w-100">Kirjaudu Sisään - Login</a>
 </div>
 
 <div class="card-footer bg-white border-0 text-muted small">
     <p>Palveluun kirjaudutaan organisaatiosi Microsoft-tunnuksilla. Jos sinulla on vaikeuksia kirjautumisen kanssa, ota yhteyttä organisaatiosi IT-tukeen.</p>
-    <p>If you have trouble logging in, please contact your own IT support.</p>
+    <p class="mb-0">If you have trouble logging in, please contact your own IT support.</p>
 </div>
+{% endblock %}
+
+{% block login_footer %}
 {% endblock %}

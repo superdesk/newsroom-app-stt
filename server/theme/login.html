@@ -1,0 +1,6 @@
+{% extends "login_layout.html" %}
+
+{% block saml %}
+<a href="{{ url_for('auth.saml') }}" title="{{ gettext('Login using Single Sign On') }}" class="nh-button nh-button--secondary w-100">{{ gettext("Login with company credentials (SSO)") }}</a>
+<p class="text-muted text-md mt-2">{{ gettext("Note! If your company credentials don't work for login, your company might not have an integration done to this system. Please contact your company IT.") }}</p>
+{% endblock %}
