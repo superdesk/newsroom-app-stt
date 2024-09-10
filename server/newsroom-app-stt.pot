@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Newsroom App STT 0.0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-14 12:26+0200\n"
+"POT-Creation-Date: 2024-09-09 15:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.14.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: theme/footer.html:3
 msgid "Support"
@@ -34,35 +34,46 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: theme/login_client.html:12
+#: theme/login.html:4 theme/login_client.html:7
 msgid "Login using Single Sign On"
 msgstr ""
 
-#: settings.py:39 settings.py:81
+#: theme/login.html:4
+msgid "Login with company credentials (SSO)"
+msgstr ""
+
+#: theme/login.html:5
+msgid ""
+"Note! If your company credentials don't work for login, your company "
+"might not have an integration done to this system. Please contact your "
+"company IT."
+msgstr ""
+
+#: settings.py:42 settings.py:88
 msgid "Department"
 msgstr ""
 
-#: settings.py:49
+#: settings.py:53
 msgid "Subject"
 msgstr ""
 
-#: settings.py:59
+#: settings.py:64
 msgid "Event Type"
 msgstr ""
 
-#: settings.py:68
+#: settings.py:74
 msgid "Importance"
 msgstr ""
 
-#: settings.py:90
+#: settings.py:97
 msgid "Genre"
 msgstr ""
 
-#: settings.py:94
+#: settings.py:101
 msgid "Version"
 msgstr ""
 
-#: settings.py:206
+#: settings.py:209
 msgid "Azure"
 msgstr ""
 
