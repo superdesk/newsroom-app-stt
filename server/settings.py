@@ -12,6 +12,7 @@ from newsroom.web.default_settings import (
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
     CLIENT_LOCALE_FORMATS,
     AUTH_PROVIDERS,
+    WIRE_TIME_FILTERS,
 )
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent
@@ -219,3 +220,41 @@ AGENDA_HIDE_COVERAGE_ASSIGNEES = True
 AGENDA_DEFAULT_FILTER_HIDE_PLANNING = True
 
 SAML_AUTH_ENABLED = bool(os.environ.get("SAML_PATH", False))
+
+WIRE_TIME_FILTERS.extend([
+    {
+        "name": "2020-",
+        "filter": "2020-2029",
+        "default": False,
+        "query": {
+            "gte": "2019-12-31T22:00:00",
+        },
+    },
+    {
+        "name": "2010-2019",
+        "filter": "2010-2019",
+        "default": False,
+        "query": {
+            "gte": "2009-12-31T22:00:00",
+            "lt": "2019-12-31T22:00:00",
+        },
+    },
+    {
+        "name": "2000-2009",
+        "filter": "2000-2009",
+        "default": False,
+        "query": {
+            "gte": "1999-12-31T22:00:00",
+            "lt": "2009-12-31T22:00:00",
+        },
+    },
+    {
+        "name": "1992-1999",
+        "filter": "1992-1999",
+        "default": False,
+        "query": {
+            "gte": "1989-12-31T22:00:00",
+            "lt": "1999-12-31T22:00:00",
+        },
+    },
+])
