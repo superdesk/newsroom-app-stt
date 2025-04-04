@@ -9,4 +9,3 @@ responses==0.25.7
 httmock==1.4.0
 httmock==1.4.0
 mypy==1.15.0
-typing_extensions==4.12.2
