@@ -281,7 +281,7 @@ pyparsing==3.2.1
     # via
     #   httplib2
     #   pyrtf3
-pypdf==5.1.0
+pypdf==6.0.0
     # via xhtml2pdf
 pyrtf3==0.47.5
     # via newsroom-core
