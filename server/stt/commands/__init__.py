@@ -1,1 +1,1 @@
-from . import remap_stt_metadata  # noqa
+from . import remap_stt_language  # noqa
