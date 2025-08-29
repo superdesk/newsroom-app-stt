@@ -1,4 +1,3 @@
-import time
 from superdesk import get_resource_service
 from newsroom.commands.manager import manager
 
