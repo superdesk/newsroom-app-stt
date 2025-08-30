@@ -1,7 +1,7 @@
+import time
+
 from superdesk import get_resource_service
 from newsroom.commands.manager import manager
-
-from .utils import iterate_items
 
 
 @manager.option("--resources", dest="resources", nargs="+", default=["items", "agenda"])
@@ -17,11 +17,18 @@ def remap_stt_language(resources, limit, sleep_secs, dry_run=False):
     Remap the language field for Wire and Agenda items in Newsroom for STT metadata.
     """
 
+    BATCH_SIZE = 100
+
     for resource in resources:
         print(f"Processing resource: {resource}")
         service = get_resource_service(resource)
+        processed = 0
 
-        for item in iterate_items(resource, limit, sleep_secs):
+        for item in service.get_all_batch(size=BATCH_SIZE, max_iterations=10000):
+            if limit != 0 and processed >= limit:
+                print(f"Reached limit of {limit} items for {resource}.")
+                break
+
             headline = (item.get("headline") or "").lower()
             new_language = "fi"
 
@@ -34,14 +41,19 @@ def remap_stt_language(resources, limit, sleep_secs, dry_run=False):
 
             updates = {"language": new_language}
 
-            if dry_run:
-                print(
-                    f"Would update {resource} item {item['_id']} with language: {new_language}"
-                )
-            else:
-                print(
-                    f"Updating {resource} item {item['_id']} with language: {new_language}"
-                )
+            prefix = "DRY RUN: " if dry_run else ""
+            print(
+                f"{prefix}Updating {resource} item '{item['_id']}' with language: {new_language}"
+            )
+
+            if not dry_run:
                 service.system_update(item["_id"], updates, item)
+
+            processed += 1
+
+            # sleep after each batch
+            if processed % BATCH_SIZE == 0:
+                print(".", end="", flush=True)
+                time.sleep(sleep_secs)
 
     print("Language remapping completed.")
