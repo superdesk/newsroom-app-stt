@@ -2,15 +2,12 @@ import time
 import json
 
 from pathlib import Path
-from dataclasses import dataclass
 from superdesk import get_resource_service
 from newsroom.commands.manager import manager
 
 
-@dataclass(frozen=True)
-class DefaultCategory:
-    code: str = "3"  # NOTE: is 3 always for `Kotimaa` category?
-    name: str = "Kotimaa"
+DEFAULT_CATEGORY_CODE = "3"  # NOTE: is 3 always for `Kotimaa` category?
+DEFAULT_CATEGORY_NAME = "Kotimaa"
 
 
 # Load topics CV from json file based on STT-1210
@@ -31,6 +28,13 @@ topics_by_name = {
 }
 
 
+def update_service(item, updates):
+    """Clear all service field values, including those with name: 'Australian General News'."""
+
+    if item.get("service"):
+        updates["service"] = []
+
+
 def update_category(item, updates):
     """Update anpa_category and sttversion from subject (sttdepartment)."""
 
@@ -42,7 +46,7 @@ def update_category(item, updates):
             ]
             return
     updates["anpa_category"] = [
-        {"qcode": DefaultCategory.code, "name": DefaultCategory.name}
+        {"qcode": DEFAULT_CATEGORY_CODE, "name": DEFAULT_CATEGORY_NAME}
     ]
     updates["sttversion"] = "Pika+"
 
@@ -64,7 +68,7 @@ def update_subject(item, updates):
                     {
                         "code": topic.get("qcode"),
                         "name": topic.get("name"),
-                        "scheme": "sttsubj", # NOTE: should it be something else?
+                        "scheme": "sttsubj",  # NOTE: should it be something else?
                     }
                 )
             else:
@@ -74,15 +78,20 @@ def update_subject(item, updates):
     updates["subject"] = new_subjects
 
 
-def get_category_mapping(item):
-    """Extract sttdepartment code and name from subject field or default to `Kotimaa`."""
+def update_priority(item, updates):
+    """Update the priority field in updates based on the stturgency subject code.
 
-    subject = item.get("subject", [])
-    for entry in subject:
-        if entry.get("scheme") == "sttdepartment":
-            return {"qcode": entry.get("code"), "name": entry.get("name")}
+    This function looks for a subject entry with the scheme 'stturgency' in the item's subject list.
+    If found, it attempts to extract the priority as an integer from the code and sets it in the updates dict.
+    """
 
-    return dict(qcode=DefaultCategory.code, name=DefaultCategory.name)
+    for entry in item.get("subject", []):
+        if entry.get("scheme") == "stturgency":
+            try:
+                updates["priority"] = int(entry.get("code")[-1])
+                return
+            except Exception:
+                continue
 
 
 @manager.option("--resources", dest="resources", nargs="+", default=["items", "agenda"])
@@ -91,25 +100,39 @@ def get_category_mapping(item):
 @manager.option("--dry-run", dest="dry_run", action="store_true")
 @manager.option("-v", "--verbose", dest="verbose", action="store_true")
 def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
-    """Remap sttdepartment to anpa_category for Wire and Agenda items in Newsroom."""
+    """
+    Remap STT metadata fields for Wire and Agenda items in Newsroom.
+
+    This command updates items by:
+      - Mapping 'sttdepartment' to 'anpa_category'
+      - Mapping 'sttsubj' to Media Topics controlled vocabulary
+      - Updating priority based on 'stturgency' codes for planning items
+
+    Supports dry-run mode, resource selection, batch processing, and verbosity.
+    """
+
+    BATCH_SIZE = 100
 
     for resource in resources:
         print(f"Processing resource: '{resource}'")
         service = get_resource_service(resource)
         processed = 0
 
-        for item in service.get_all_batch(size=100, max_iterations=10000):
+        for item in service.get_all_batch(size=BATCH_SIZE, max_iterations=10000):
             if limit != 0 and processed >= limit:
                 print(f"Reached limit of {limit} items for {resource}.")
                 break
 
             updates = {}
+            update_service(item, updates)
             update_category(item, updates)
             update_subject(item, updates)
 
+            if resource == "agenda" and item.get("item_type") == "planning":
+                update_priority(item, updates)
+
             if not updates:
                 continue
-
 
             prefix = "DRY RUN: " if dry_run else ""
             msg = f"{prefix}Updating {resource} item '{item['_id']}'"
@@ -123,7 +146,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
             processed += 1
 
             # sleep after each batch
-            if processed % 100 == 0:
+            if processed % BATCH_SIZE == 0:
                 print(".", end="", flush=True)
                 time.sleep(sleep_secs)
 
