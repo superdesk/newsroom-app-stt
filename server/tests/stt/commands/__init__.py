@@ -14,7 +14,7 @@ class FakeService:
         # simple paginator over current values
         items = list(self._items.values())
         for i in range(0, min(len(items), size * max_iterations), size):
-            yield from items[i:i + size]
+            yield from items[i : i + size]  # noqa
 
     def system_update(self, _id, updates, original):
         self._items[_id].update(updates)
