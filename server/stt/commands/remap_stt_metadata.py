@@ -68,12 +68,14 @@ def update_subject(item, updates):
                     {
                         "code": topic.get("qcode"),
                         "name": topic.get("name"),
-                        "scheme": "sttsubj",  # NOTE: should it be something else?
+                        "scheme": "mediatopic",  # TODO: should it be `sttsubj` instead?
                     }
                 )
             else:
                 print(f"Topic not found for '{name}' and code '{code}'.")
-                new_subjects.append({"code": code, "name": name, "scheme": "sttsubj"})
+                new_subjects.append(
+                    {"code": code, "name": name, "scheme": "mediatopic"}
+                )
 
     updates["subject"] = new_subjects
 

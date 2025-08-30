@@ -12,7 +12,7 @@ from newsroom.commands.manager import manager
     "--sleep-secs", dest="sleep_secs", type=float, default=2, help="Default: 2 seconds"
 )
 @manager.option("--dry-run", dest="dry_run", action="store_true")
-def remap_stt_language(resources, limit, sleep_secs, dry_run=False):
+def remap_stt_language(resources, limit, sleep_secs, dry_run):
     """
     Remap the language field for Wire and Agenda items in Newsroom for STT metadata.
     """
