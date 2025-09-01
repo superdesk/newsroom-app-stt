@@ -21,10 +21,7 @@ topics_map = {
 }
 
 # used as fallback in case the code is not found
-topics_by_name = {
-    item.get("name"): item
-    for item in topics_cv.get("items", [])
-}
+topics_by_name = {item.get("name"): item for item in topics_cv.get("items", [])}
 
 
 def update_service(item, updates):
