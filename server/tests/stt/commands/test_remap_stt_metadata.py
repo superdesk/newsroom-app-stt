@@ -15,7 +15,7 @@ def patch_topics_map(monkeypatch):
         mod_meta,
         "topics_map",
         {
-            "X1": {"qcode": "MT-123", "name": "Economy"},
+            "60000": {"qcode": "MT-123", "name": "Economy"},
         },
         raising=True,
     )
@@ -43,7 +43,7 @@ def test_clears_service_and_maps_anpa_from_sttdepartment(monkey_service):
             "service": [{"name": "Australian General News"}, {"name": "Other"}],
             "subject": [
                 {"scheme": "sttdepartment", "code": "3", "name": "Kotimaa"},
-                {"scheme": "sttsubj", "code": "X1", "name": "Economy"},
+                {"scheme": "sttsubj", "code": "60000", "name": "Economy"},
             ],
         }
     ]
@@ -63,17 +63,17 @@ def test_clears_service_and_maps_anpa_from_sttdepartment(monkey_service):
     assert any(
         s
         for s in updated["subject"]
-        if s.get("code") == "MT-123" and s.get("name") == "Economy"
+        if s.get("code") == "60000" and s.get("name") == "Economy"
     )
 
 
 def test_missing_sttdepartment_sets_defaults(monkey_service):
     items = [
         {
-            "_id": "i2",
+            "_id": "2000",
             "service": [{"name": "Australian General News"}],
             "subject": [  # no sttdepartment present
-                {"scheme": "sttsubj", "code": "no-map", "name": "Unmapped"},
+                {"scheme": "sttsubj", "code": "999999", "name": "Unmapped"},
             ],
         }
     ]
@@ -84,7 +84,7 @@ def test_missing_sttdepartment_sets_defaults(monkey_service):
         resources=["items"], limit=0, sleep_secs=0, dry_run=False, verbose=False
     )
 
-    updated = svc._items["i2"]
+    updated = svc._items["2000"]
     # service cleared
     assert updated.get("service") == []
     # defaults applied
@@ -100,7 +100,7 @@ def test_missing_sttdepartment_sets_defaults(monkey_service):
 def test_planning_priority_from_stturgency(monkey_service):
     agenda = [
         {
-            "_id": "p1",
+            "_id": "30000",
             "item_type": "planning",
             "subject": [
                 {"scheme": "stturgency", "code": "urgency-2", "name": "Medium"},
@@ -114,4 +114,4 @@ def test_planning_priority_from_stturgency(monkey_service):
         resources=["agenda"], limit=0, sleep_secs=0, dry_run=False, verbose=False
     )
 
-    assert svc._items["p1"]["priority"] == 2
+    assert svc._items["30000"]["priority"] == 2
