@@ -15,7 +15,7 @@ topics_cv_path = Path(__file__).parent / "data" / "STT_Media_Topics.json"
 with open(topics_cv_path, "r", encoding="utf-8") as f:
     topics_cv = json.load(f)
 topics_map = {
-    item.get("iptc_subject"): item
+    int(item.get("iptc_subject")): item
     for item in topics_cv.get("items", [])
     if item.get("iptc_subject")
 }
@@ -24,7 +24,6 @@ topics_map = {
 topics_by_name = {
     item.get("name"): item
     for item in topics_cv.get("items", [])
-    if item.get("iptc_subject")
 }
 
 
@@ -51,7 +50,7 @@ def update_category(item, updates):
     updates["sttversion"] = "Pika+"
 
 
-def update_subject(item, updates):
+def update_subject(item, updates, not_found):
     """Update subject by mapping sttsubj to Media topics CV."""
 
     subject = item.get("subject", [])
@@ -61,7 +60,7 @@ def update_subject(item, updates):
         if entry.get("scheme") == "sttsubj":
             code = entry.get("code")
             name = entry.get("name")
-            topic = topics_map.get(code) or topics_by_name.get(name)
+            topic = topics_map.get(int(code)) or topics_by_name.get(name)
 
             if topic:
                 new_subjects.append(
@@ -72,7 +71,7 @@ def update_subject(item, updates):
                     }
                 )
             else:
-                print(f"Topic not found for '{name}' and code '{code}'.")
+                not_found.add(code)
                 new_subjects.append(
                     {"code": code, "name": name, "scheme": "mediatopic"}
                 )
@@ -114,6 +113,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
     """
 
     BATCH_SIZE = 100
+    topics_not_found = set()
 
     for resource in resources:
         print(f"Processing resource: '{resource}'")
@@ -128,7 +128,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
             updates = {}
             update_service(item, updates)
             update_category(item, updates)
-            update_subject(item, updates)
+            update_subject(item, updates, topics_not_found)
 
             if resource == "agenda" and item.get("item_type") == "planning":
                 update_priority(item, updates)
@@ -151,6 +151,9 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
             if processed % BATCH_SIZE == 0:
                 print(".", end="", flush=True)
                 time.sleep(sleep_secs)
+
+        if verbose:
+            print(f"Topics not found: {topics_not_found}")
 
         print(f"Finished '{resource}'. Total processed: {processed}")
 
