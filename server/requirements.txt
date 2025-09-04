@@ -94,7 +94,7 @@ cryptography==44.0.1
     #   pyhanko-certvalidator
 cssselect2==0.7.0
     # via svglib
-deepdiff==8.1.1
+deepdiff==8.6.1
     # via superdesk-planning
 deprecated==1.2.15
     # via limits
@@ -234,7 +234,7 @@ oauth2client==4.1.3
     # via flask-oidc-ex
 oauthlib==3.2.2
     # via requests-oauthlib
-orderly-set==5.2.3
+orderly-set==5.5.0
     # via deepdiff
 oscrypto==1.3.0
     # via pyhanko-certvalidator
