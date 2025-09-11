@@ -36,13 +36,13 @@ def monkey_service(monkeypatch):
     return services
 
 
-def test_clears_service_and_maps_anpa_from_sttdepartment(monkey_service):
+def test_clears_service_and_maps_service_from_sttdepartment(monkey_service):
     items = [
         {
             "_id": "i1",
             "service": [{"name": "Australian General News"}, {"name": "Other"}],
             "subject": [
-                {"scheme": "sttdepartment", "code": "3", "name": "Kotimaa"},
+                {"scheme": "sttdepartment", "code": "4", "name": "Service Test"},
                 {"scheme": "sttsubj", "code": "60000", "name": "Economy"},
             ],
         }
@@ -55,10 +55,9 @@ def test_clears_service_and_maps_anpa_from_sttdepartment(monkey_service):
     )
 
     updated = svc._items["i1"]
-    # service cleared
-    assert updated.get("service") == []
-    # anpa_category set from sttdepartment
-    assert updated.get("anpa_category") == [{"code": "3", "name": "Kotimaa"}]
+    # service set from sttdepartment
+    assert updated.get("service") == [{"code": "4", "name": "Service Test"}]
+
     # sttsubj replaced with mapped entry (keeps scheme as in current implementation)
     assert any(
         s
@@ -85,10 +84,9 @@ def test_missing_sttdepartment_sets_defaults(monkey_service):
     )
 
     updated = svc._items["2000"]
-    # service cleared
-    assert updated.get("service") == []
+
     # defaults applied
-    assert updated.get("anpa_category") == [
+    assert updated.get("service") == [
         {
             "code": mod_meta.DEFAULT_CATEGORY_CODE,
             "name": mod_meta.DEFAULT_CATEGORY_NAME,

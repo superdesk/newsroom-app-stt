@@ -24,24 +24,25 @@ topics_map = {
 topics_by_name = {item.get("name"): item for item in topics_cv.get("items", [])}
 
 
-def update_service(item, updates):
+def reset_service(item, updates):
     """Clear all service field values, including those with name: 'Australian General News'."""
 
     if item.get("service"):
         updates["service"] = []
 
 
-def update_category(item, updates):
-    """Update anpa_category and sttversion from subject (sttdepartment)."""
+def update_service(item, updates):
+    """Update `service` and `sttversion` from subject (sttdepartment)."""
 
     subject = item.get("subject", [])
     for entry in subject:
         if entry.get("scheme") == "sttdepartment":
-            updates["anpa_category"] = [
+            updates["service"] = [
                 {"code": entry.get("code"), "name": entry.get("name")}
             ]
             return
-    updates["anpa_category"] = [
+
+    updates["service"] = [
         {"code": DEFAULT_CATEGORY_CODE, "name": DEFAULT_CATEGORY_NAME}
     ]
     updates["sttversion"] = "Pika+"
@@ -78,14 +79,17 @@ def update_subject(item, updates, not_found):
 
 def update_language(item, updates, resource):
     """Update the language field for Wire and Agenda items in Newsroom for STT metadata."""
+
     headline = (item.get("headline") or "").lower()
     new_language = "fi"
+
     if resource == "items" and (
         headline.endswith("***translated***")
         or "news in brief" in headline
         or "news bulletin" in headline
     ):
         new_language = "en"
+
     updates["language"] = new_language
 
 
@@ -99,7 +103,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
     Remap STT metadata fields for Wire and Agenda items in Newsroom.
 
     This command updates items by:
-      - Mapping 'sttdepartment' to 'anpa_category'
+      - Mapping 'sttdepartment' to 'service'
       - Mapping 'sttsubj' to Media Topics controlled vocabulary
       - Updating priority based on 'stturgency' codes for planning items
       - Remapping the language field for STT metadata (fi/en)
@@ -121,8 +125,12 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
                 break
 
             updates = {}
+            reset_service(item, updates)
+
+            print("*" * 100)
+            print(updates)
+
             update_service(item, updates)
-            update_category(item, updates)
             update_subject(item, updates, topics_not_found)
             update_language(item, updates, resource)
 
