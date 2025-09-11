@@ -65,7 +65,7 @@ def update_subject(item, updates, not_found):
                     {
                         "code": topic.get("qcode"),
                         "name": topic.get("name"),
-                        "scheme": "mediatopic",  # TODO: should it be `sttsubj` instead?
+                        "scheme": "mediatopic",
                     }
                 )
             else:
@@ -126,10 +126,6 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
 
             updates = {}
             reset_service(item, updates)
-
-            print("*" * 100)
-            print(updates)
-
             update_service(item, updates)
             update_subject(item, updates, topics_not_found)
             update_language(item, updates, resource)
