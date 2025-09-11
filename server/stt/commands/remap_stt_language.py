@@ -6,7 +6,7 @@ from newsroom.commands.manager import manager
 
 @manager.option("--resources", dest="resources", nargs="+", default=["items", "agenda"])
 @manager.option(
-    "--limit", dest="limit", type=int, default=500, help="Pass 0 for unlimited"
+    "--limit", dest="limit", type=int, default=1000, help="Pass 0 for unlimited"
 )
 @manager.option(
     "--sleep-secs", dest="sleep_secs", type=float, default=2, help="Default: 2 seconds"
@@ -17,7 +17,7 @@ def remap_stt_language(resources, limit, sleep_secs, dry_run):
     Remap the language field for Wire and Agenda items in Newsroom for STT metadata.
     """
 
-    BATCH_SIZE = 100
+    BATCH_SIZE = 500
 
     for resource in resources:
         print(f"Processing resource: {resource}")
