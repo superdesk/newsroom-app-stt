@@ -38,11 +38,11 @@ def update_category(item, updates):
     for entry in subject:
         if entry.get("scheme") == "sttdepartment":
             updates["anpa_category"] = [
-                {"qcode": entry.get("code"), "name": entry.get("name")}
+                {"code": entry.get("code"), "name": entry.get("name")}
             ]
             return
     updates["anpa_category"] = [
-        {"qcode": DEFAULT_CATEGORY_CODE, "name": DEFAULT_CATEGORY_NAME}
+        {"code": DEFAULT_CATEGORY_CODE, "name": DEFAULT_CATEGORY_NAME}
     ]
     updates["sttversion"] = "Pika+"
 
@@ -76,24 +76,8 @@ def update_subject(item, updates, not_found):
     updates["subject"] = new_subjects
 
 
-def update_priority(item, updates):
-    """Update the priority field in updates based on the stturgency subject code.
-
-    This function looks for a subject entry with the scheme 'stturgency' in the item's subject list.
-    If found, it attempts to extract the priority as an integer from the code and sets it in the updates dict.
-    """
-
-    for entry in item.get("subject", []):
-        if entry.get("scheme") == "stturgency":
-            try:
-                updates["priority"] = int(entry.get("code")[-1])
-                return
-            except Exception:
-                continue
-
-
 @manager.option("--resources", dest="resources", nargs="+", default=["items", "agenda"])
-@manager.option("--limit", dest="limit", type=int, default=500)
+@manager.option("--limit", dest="limit", type=int, default=1000)
 @manager.option("--sleep-secs", dest="sleep_secs", type=float, default=2)
 @manager.option("--dry-run", dest="dry_run", action="store_true")
 @manager.option("-v", "--verbose", dest="verbose", action="store_true")
@@ -109,7 +93,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
     Supports dry-run mode, resource selection, batch processing, and verbosity.
     """
 
-    BATCH_SIZE = 100
+    BATCH_SIZE = 500
     topics_not_found = set()
 
     for resource in resources:
@@ -126,9 +110,6 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
             update_service(item, updates)
             update_category(item, updates)
             update_subject(item, updates, topics_not_found)
-
-            if resource == "agenda" and item.get("item_type") == "planning":
-                update_priority(item, updates)
 
             if not updates:
                 continue
