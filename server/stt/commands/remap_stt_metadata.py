@@ -76,6 +76,19 @@ def update_subject(item, updates, not_found):
     updates["subject"] = new_subjects
 
 
+def update_language(item, updates, resource):
+    """Update the language field for Wire and Agenda items in Newsroom for STT metadata."""
+    headline = (item.get("headline") or "").lower()
+    new_language = "fi"
+    if resource == "items" and (
+        headline.endswith("***translated***")
+        or "news in brief" in headline
+        or "news bulletin" in headline
+    ):
+        new_language = "en"
+    updates["language"] = new_language
+
+
 @manager.option("--resources", dest="resources", nargs="+", default=["items", "agenda"])
 @manager.option("--limit", dest="limit", type=int, default=1000)
 @manager.option("--sleep-secs", dest="sleep_secs", type=float, default=2)
@@ -89,6 +102,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
       - Mapping 'sttdepartment' to 'anpa_category'
       - Mapping 'sttsubj' to Media Topics controlled vocabulary
       - Updating priority based on 'stturgency' codes for planning items
+      - Remapping the language field for STT metadata (fi/en)
 
     Supports dry-run mode, resource selection, batch processing, and verbosity.
     """
@@ -110,6 +124,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
             update_service(item, updates)
             update_category(item, updates)
             update_subject(item, updates, topics_not_found)
+            update_language(item, updates, resource)
 
             if not updates:
                 continue
@@ -135,4 +150,4 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
 
         print(f"Finished '{resource}'. Total processed: {processed}")
 
-    print("Category remapping completed.")
+    print("Metadata and language remapping completed.")

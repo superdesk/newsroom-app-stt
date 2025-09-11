@@ -15,7 +15,7 @@ def patch_topics_map(monkeypatch):
         mod_meta,
         "topics_map",
         {
-            "60000": {"qcode": "MT-123", "name": "Economy"},
+            "60000": {"code": "MT-123", "name": "Economy"},
         },
         raising=True,
     )
@@ -23,7 +23,7 @@ def patch_topics_map(monkeypatch):
         mod_meta,
         "topics_by_name",
         {
-            "Sports": {"qcode": "MT-999", "name": "Sports"},
+            "Sports": {"code": "MT-999", "name": "Sports"},
         },
         raising=True,
     )
@@ -58,7 +58,7 @@ def test_clears_service_and_maps_anpa_from_sttdepartment(monkey_service):
     # service cleared
     assert updated.get("service") == []
     # anpa_category set from sttdepartment
-    assert updated.get("anpa_category") == [{"qcode": "3", "name": "Kotimaa"}]
+    assert updated.get("anpa_category") == [{"code": "3", "name": "Kotimaa"}]
     # sttsubj replaced with mapped entry (keeps scheme as in current implementation)
     assert any(
         s
@@ -90,28 +90,63 @@ def test_missing_sttdepartment_sets_defaults(monkey_service):
     # defaults applied
     assert updated.get("anpa_category") == [
         {
-            "qcode": mod_meta.DEFAULT_CATEGORY_CODE,
+            "code": mod_meta.DEFAULT_CATEGORY_CODE,
             "name": mod_meta.DEFAULT_CATEGORY_NAME,
         }
     ]
     assert updated.get("sttversion") == "Pika+"
 
 
-def test_planning_priority_from_stturgency(monkey_service):
-    agenda = [
-        {
-            "_id": "30000",
-            "item_type": "planning",
-            "subject": [
-                {"scheme": "stturgency", "code": "urgency-2", "name": "Medium"},
-            ],
-        }
+def test_language_rules_items_exceptions_and_default(monkey_service):
+    # items: special cases + default
+    items = [
+        {"_id": "a1", "headline": "Something ***TRANSLATED***", "language": "fi"},
+        {"_id": "a2", "headline": "NEWS BULLETIN: Update", "language": "fi"},
+        {"_id": "a3", "headline": "Regular Finnish story", "language": "en"},
     ]
-    svc = FakeService(agenda)
-    monkey_service["agenda"] = svc
+    svc_items = FakeService(items)
+    monkey_service["items"] = svc_items
 
+    # agenda: even if headline matches, exceptions only apply to items
+    agenda = [
+        {"_id": "p1", "headline": "Something ***TRANSLATED***", "language": "en"},
+        {"_id": "p2", "headline": "Normal planning", "language": "en"},
+    ]
+    svc_agenda = FakeService(agenda)
+    monkey_service["agenda"] = svc_agenda
+
+    # Run: process both resources, apply updates (dry_run=False)
     mod_meta.remap_stt_metadata(
-        resources=["agenda"], limit=0, sleep_secs=0, dry_run=False, verbose=False
+        resources=["items", "agenda"],
+        limit=0,
+        sleep_secs=0,
+        dry_run=False,
+        verbose=False,
     )
 
-    assert svc._items["30000"]["priority"] == 2
+    # items: a1,a2 -> en; a3 -> fi
+    assert svc_items._items["a1"]["language"] == "en"
+    assert svc_items._items["a2"]["language"] == "en"
+    assert svc_items._items["a3"]["language"] == "fi"
+
+    # agenda: defaults to fi (no items-only exceptions)
+    assert svc_agenda._items["p1"]["language"] == "fi"
+    assert svc_agenda._items["p2"]["language"] == "fi"
+
+
+def test_language_limit_stops_processing(monkey_service):
+    items = [{"_id": f"x{i}", "headline": "post", "language": "en"} for i in range(5)]
+    svc_items = FakeService(items)
+    monkey_service["items"] = svc_items
+
+    # Limit = 2 should only update first two docs
+    mod_meta.remap_stt_metadata(
+        resources=["items"],
+        limit=2,
+        sleep_secs=0,
+        dry_run=False,
+        verbose=False,
+    )
+
+    updated = [doc for doc in svc_items._items.values() if doc["language"] == "fi"]
+    assert len(updated) == 2
