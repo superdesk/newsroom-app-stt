@@ -65,13 +65,13 @@ def update_subject(item, updates, not_found):
                     {
                         "code": topic.get("qcode"),
                         "name": topic.get("name"),
-                        "scheme": "mediatopic",
+                        "scheme": "topics",
                     }
                 )
             else:
                 not_found.add(code)
                 new_subjects.append(
-                    {"code": code, "name": name, "scheme": "mediatopic"}
+                    {"code": code, "name": name, "scheme": "topics"}
                 )
 
     updates["subject"] = new_subjects
