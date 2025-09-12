@@ -1,7 +1,6 @@
-from newsroom.commands import *  # noqa
-from newsroom.commands.manager import manager
+from quart.cli import main
 
 import stt.commands  # noqa
 
 if __name__ == "__main__":
-    manager.run()
+    main()

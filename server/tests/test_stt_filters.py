@@ -1,7 +1,8 @@
 import bson
 import hmac
-from flask import json
-from newsroom.utils import get_entity_or_404
+
+from stt.wire import STTWireItem
+from stt.filters import init_app
 
 
 def get_signature_headers(data, key):
@@ -38,83 +39,81 @@ item = {
 }
 
 
-def test_push_updates_ednote(client, app):
-    from stt.filters import init_app
+async def get_wire_item(guid: str) -> STTWireItem | None:
+    return await STTWireItem.get_service().find_by_id(guid)
 
+
+async def test_push_updates_ednote(client, app):
     init_app(app)
     payload = item.copy()
     payload["ednote"] = "foo"
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    parsed = get_entity_or_404(item["guid"], "items")
-    assert parsed["ednote"] == "foo"
+    await client.post("/push", json=payload)
+    parsed = await get_wire_item(item["guid"])
+    assert parsed.ednote == "foo"
 
     payload["guid"] = "bar"
     payload["extra"] = {"sttnote_private": "private message"}
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    parsed = get_entity_or_404(payload["guid"], "items")
-    assert parsed["ednote"] == "foo\nprivate message"
+    await client.post("/push", json=payload)
+    parsed = await get_wire_item(payload["guid"])
+    assert parsed.ednote == "foo\nprivate message"
 
     payload["guid"] = "baz"
     payload.pop("ednote")
     payload["extra"] = {"sttnote_private": "private message"}
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    parsed = get_entity_or_404(payload["guid"], "items")
-    assert parsed["ednote"] == "private message"
+    await client.post("/push", json=payload)
+    parsed = await get_wire_item(payload["guid"])
+    assert parsed.ednote == "private message"
 
 
-def test_push_firstcreated_is_older_copies_to_versioncreated(client, app):
-    from stt.filters import init_app
-
+async def test_push_firstcreated_is_older_copies_to_versioncreated(client, app):
     init_app(app)
     payload = item.copy()
     payload["firstpublished"] = "2017-11-26T08:00:57+0000"
     payload["versioncreated"] = "2017-11-27T08:00:57+0000"
     payload["version"] = "1"
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    parsed = get_entity_or_404(item["guid"], "items")
-    assert parsed["firstpublished"] == parsed["versioncreated"]
+    await client.post("/push", json=payload)
+    parsed = await get_wire_item(item["guid"])
+    assert parsed.firstpublished == parsed.versioncreated
 
     # post the same story again as a correction, versioncreated is preserved
     payload["versioncreated"] = "2017-11-28T08:00:57+0000"
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    parsed = get_entity_or_404(item["guid"], "items")
-    assert parsed["firstpublished"].strftime("%Y%m%d%H%M") == "201711260800"
-    assert parsed["versioncreated"].strftime("%Y%m%d%H%M") == "201711280800"
+    await client.post("/push", json=payload)
+    parsed = await get_wire_item(item["guid"])
+    assert parsed.firstpublished.strftime("%Y%m%d%H%M") == "201711260800"
+    assert parsed.versioncreated.strftime("%Y%m%d%H%M") == "201711280800"
 
 
-def test_push_new_versions_will_update_ancestors(client, app):
-    from stt.filters import init_app
-
+async def test_push_new_versions_will_update_ancestors(client, app):
     init_app(app)
     payload = item.copy()
     payload["version"] = "1"
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    parsed = get_entity_or_404(item["guid"], "items")
-    assert parsed["version"] == "1"
+    await client.post("/push", json=payload)
+    parsed = await get_wire_item(item["guid"])
+    assert parsed.version == "1"
 
-    bookmarks = [str(bson.ObjectId())]
-    saved = get_entity_or_404(item["guid"], "items")
-    app.data.update("items", saved["_id"], {"bookmarks": bookmarks}, saved)
+    bookmarks = [bson.ObjectId()]
+    saved = await get_wire_item(item["guid"])
+    await STTWireItem.get_service().update(saved.id, {"bookmarks": bookmarks})
 
     # post the new version of the story, it will update the ancestors
     payload["version"] = "2"
     payload["headline"] = "bar"
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    new_story = get_entity_or_404("foo:2", "items")
-    original_story = get_entity_or_404(item["guid"], "items")
-    assert new_story["version"] == "2"
-    assert new_story["ancestors"] == ["foo"]
-    assert new_story["headline"] == "bar"
-    assert new_story["bookmarks"] == bookmarks
-    assert original_story["nextversion"] == "foo:2"
+    await client.post("/push", json=payload)
+    new_story = await get_wire_item("foo:2")
+    original_story = await get_wire_item(item["guid"])
+    assert new_story.version == "2"
+    assert new_story.ancestors == ["foo"]
+    assert new_story.headline == "bar"
+    assert new_story.bookmarks == bookmarks
+    assert original_story.nextversion == "foo:2"
 
     # post the same version of the story, it will update keep ancestors but update the current story
     payload["headline"] = "baz"
-    client.post("/push", data=json.dumps(payload), content_type="application/json")
-    new_story = get_entity_or_404("foo:2", "items")
-    original_story = get_entity_or_404(item["guid"], "items")
-    assert new_story["version"] == "2"
-    assert new_story["ancestors"] == ["foo"]
-    assert new_story["headline"] == "baz"
-    assert new_story["bookmarks"] == bookmarks
-    assert original_story["nextversion"] == "foo:2"
+    await client.post("/push", json=payload)
+    new_story = await get_wire_item("foo:2")
+    original_story = await get_wire_item(item["guid"])
+    assert new_story.version == "2"
+    assert new_story.ancestors == ["foo"]
+    assert new_story.headline == "baz"
+    assert new_story.bookmarks == bookmarks
+    assert original_story.nextversion == "foo:2"
