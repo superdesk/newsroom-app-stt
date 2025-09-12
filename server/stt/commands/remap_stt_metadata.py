@@ -70,9 +70,7 @@ def update_subject(item, updates, not_found):
                 )
             else:
                 not_found.add(code)
-                new_subjects.append(
-                    {"code": code, "name": name, "scheme": "topics"}
-                )
+                new_subjects.append({"code": code, "name": name, "scheme": "topics"})
 
     updates["subject"] = new_subjects
 
