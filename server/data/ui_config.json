@@ -16,11 +16,7 @@
                 [
                     "source",
                     "//",
-                    {
-                        "field": "service",
-                        "component": "service_names",
-                        "styles": { "fontWeight": "bold" }
-                    }
+                    "service"
                 ],
                 {
                     "field" : "sttversion",
@@ -41,11 +37,7 @@
             "metadata_fields" : [
                 "urgency",
                 "source",
-                {
-                    "field": "service",
-                    "component": "service_names",
-                    "styles": { "fontWeight": "bold" }
-                },
+                "service",
                 "sttversion",
                 "charcount",
                 "previous_versions",
@@ -62,11 +54,7 @@
             "metadata_fields" : [
                 "source",
                 "//",
-                {
-                    "field": "service",
-                    "component": "service_names",
-                    "styles": { "fontWeight": "bold" }
-                },
+                "service",
                 "//",
                 "sttversion",
                 "//",
@@ -75,11 +63,7 @@
                 "versioncreated"
             ],
             "compact_metadata_fields" : [
-                {
-                    "field": "service",
-                    "component": "service_names",
-                    "styles": { "fontWeight": "bold" }
-                },
+                "service",
                 "//",
                 "sttversion",
                 "//",
