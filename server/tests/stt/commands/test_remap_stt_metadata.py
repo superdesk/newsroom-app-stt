@@ -94,7 +94,7 @@ async def test_language_rules_items_exceptions_and_default(monkey_service):
     # items: special cases + default
     items = [
         {"_id": "a1", "headline": "Something ***TRANSLATED***", "language": "fi"},
-        {"_id": "a2", "headline": "Regular update", "language": "fi"},
+        {"_id": "a2", "headline": "NEWS BULLETIN: Update", "language": "fi"},
         {"_id": "a3", "headline": "Regular Finnish story", "language": "en"},
     ]
     svc_items = FakeService(items)
@@ -116,6 +116,16 @@ async def test_language_rules_items_exceptions_and_default(monkey_service):
         dry_run=False,
         verbose=False,
     )
+
+    # items: a1,a2 -> en; a3 -> fi
+    assert svc_items._items["a1"]["language"] == "en"
+    assert svc_items._items["a2"]["language"] == "en"
+    assert svc_items._items["a3"]["language"] == "fi"
+
+    # agenda: defaults to fi (no items-only exceptions)
+    assert svc_agenda._items["p1"]["language"] == "fi"
+    assert svc_agenda._items["p2"]["language"] == "fi"
+
     # Limit = 2 should only update first two docs
     await mod_meta.remap_stt_metadata_handler(
         resources=["items"],
@@ -125,5 +135,5 @@ async def test_language_rules_items_exceptions_and_default(monkey_service):
         verbose=False,
     )
 
-    updated = [doc for doc in svc_items._items.values() if doc["language"] == "fi"]
+    updated = [doc for doc in svc_items._items.values() if doc["language"] == "en"]
     assert len(updated) == 2
