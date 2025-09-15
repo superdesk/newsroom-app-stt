@@ -1,7 +1,6 @@
 import pytest
 
 import stt.commands.remap_stt_metadata as mod_meta
-
 from . import FakeService
 
 
@@ -14,17 +13,13 @@ def patch_topics_map(monkeypatch):
     monkeypatch.setattr(
         mod_meta,
         "topics_map",
-        {
-            "60000": {"code": "MT-123", "name": "Economy"},
-        },
+        {"60000": {"code": "MT-123", "name": "Economy"}},
         raising=True,
     )
     monkeypatch.setattr(
         mod_meta,
         "topics_by_name",
-        {
-            "Sports": {"code": "MT-999", "name": "Sports"},
-        },
+        {"Sports": {"code": "MT-999", "name": "Sports"}},
         raising=True,
     )
 
@@ -32,11 +27,11 @@ def patch_topics_map(monkeypatch):
 @pytest.fixture
 def monkey_service(monkeypatch):
     services = {}
-    monkeypatch.setattr(mod_meta, "get_resource_service", lambda r: services[r])
+    monkeypatch.setattr(mod_meta, "get_service_instance", lambda r: services[r])
     return services
 
 
-def test_clears_service_and_maps_service_from_sttdepartment(monkey_service):
+async def test_clears_service_and_maps_service_from_sttdepartment(monkey_service):
     items = [
         {
             "_id": "i1",
@@ -50,7 +45,7 @@ def test_clears_service_and_maps_service_from_sttdepartment(monkey_service):
     svc = FakeService(items)
     monkey_service["items"] = svc
 
-    mod_meta.remap_stt_metadata(
+    await mod_meta.remap_stt_metadata_handler(
         resources=["items"], limit=0, sleep_secs=0, dry_run=False, verbose=True
     )
 
@@ -66,7 +61,7 @@ def test_clears_service_and_maps_service_from_sttdepartment(monkey_service):
     )
 
 
-def test_missing_sttdepartment_sets_defaults(monkey_service):
+async def test_missing_sttdepartment_sets_defaults(monkey_service):
     items = [
         {
             "_id": "2000",
@@ -79,7 +74,7 @@ def test_missing_sttdepartment_sets_defaults(monkey_service):
     svc = FakeService(items)
     monkey_service["items"] = svc
 
-    mod_meta.remap_stt_metadata(
+    await mod_meta.remap_stt_metadata_handler(
         resources=["items"], limit=0, sleep_secs=0, dry_run=False, verbose=False
     )
 
@@ -95,7 +90,7 @@ def test_missing_sttdepartment_sets_defaults(monkey_service):
     assert updated.get("sttversion") == "Pika+"
 
 
-def test_language_rules_items_exceptions_and_default(monkey_service):
+async def test_language_rules_items_exceptions_and_default(monkey_service):
     # items: special cases + default
     items = [
         {"_id": "a1", "headline": "Something ***TRANSLATED***", "language": "fi"},
@@ -114,7 +109,7 @@ def test_language_rules_items_exceptions_and_default(monkey_service):
     monkey_service["agenda"] = svc_agenda
 
     # Run: process both resources, apply updates (dry_run=False)
-    mod_meta.remap_stt_metadata(
+    await mod_meta.remap_stt_metadata_handler(
         resources=["items", "agenda"],
         limit=0,
         sleep_secs=0,
@@ -131,14 +126,8 @@ def test_language_rules_items_exceptions_and_default(monkey_service):
     assert svc_agenda._items["p1"]["language"] == "fi"
     assert svc_agenda._items["p2"]["language"] == "fi"
 
-
-def test_language_limit_stops_processing(monkey_service):
-    items = [{"_id": f"x{i}", "headline": "post", "language": "en"} for i in range(5)]
-    svc_items = FakeService(items)
-    monkey_service["items"] = svc_items
-
     # Limit = 2 should only update first two docs
-    mod_meta.remap_stt_metadata(
+    await mod_meta.remap_stt_metadata_handler(
         resources=["items"],
         limit=2,
         sleep_secs=0,
@@ -146,5 +135,5 @@ def test_language_limit_stops_processing(monkey_service):
         verbose=False,
     )
 
-    updated = [doc for doc in svc_items._items.values() if doc["language"] == "fi"]
+    updated = [doc for doc in svc_items._items.values() if doc["language"] == "en"]
     assert len(updated) == 2

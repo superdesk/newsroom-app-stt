@@ -1,9 +1,11 @@
 import time
 import json
+import click
 
 from pathlib import Path
-from superdesk import get_resource_service
-from newsroom.commands.manager import manager
+
+from newsroom.commands.cli import newsroom_cli
+from newsroom.core import get_current_wsgi_app
 
 
 DEFAULT_CATEGORY_CODE = "3"  # NOTE: is 3 always for `Kotimaa` category?
@@ -91,12 +93,49 @@ def update_language(item, updates, resource):
     updates["language"] = new_language
 
 
-@manager.option("--resources", dest="resources", nargs="+", default=["items", "agenda"])
-@manager.option("--limit", dest="limit", type=int, default=1000)
-@manager.option("--sleep-secs", dest="sleep_secs", type=float, default=2)
-@manager.option("--dry-run", dest="dry_run", action="store_true")
-@manager.option("-v", "--verbose", dest="verbose", action="store_true")
-def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
+def get_service_instance(resource):
+    app = get_current_wsgi_app()
+    return app.async_app.resources.get_resource_service(resource)
+
+
+@newsroom_cli.command("remap_stt_metadata")
+@click.option(
+    "--resources",
+    multiple=True,
+    default=["items", "agenda"],
+    show_default=True,
+    help="List of resources to process (can specify multiple times)",
+)
+@click.option(
+    "--limit",
+    default=1000,
+    show_default=True,
+    type=int,
+    help="Maximum number of items to process per resource (0 for unlimited)",
+)
+@click.option(
+    "--sleep-secs",
+    default=2.0,
+    show_default=True,
+    type=float,
+    help="Seconds to sleep between batches",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    help="Run in dry mode (no changes will be made)",
+)
+@click.option(
+    "-v",
+    "--verbose",
+    is_flag=True,
+    help="Enable verbose output",
+)
+async def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
+    await remap_stt_metadata_handler(resources, limit, sleep_secs, dry_run, verbose)
+
+
+async def remap_stt_metadata_handler(resources, limit, sleep_secs, dry_run, verbose):
     """
     Remap STT metadata fields for Wire and Agenda items in Newsroom.
 
@@ -112,12 +151,17 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
     BATCH_SIZE = 500
     topics_not_found = set()
 
+    # If resources is a tuple (from click), convert to list for compatibility
+    if isinstance(resources, tuple):
+        resources = list(resources)
+
     for resource in resources:
         print(f"Processing resource: '{resource}'")
-        service = get_resource_service(resource)
+        service = get_service_instance(resource)
         processed = 0
 
-        for item in service.get_all_batch(size=BATCH_SIZE, max_iterations=10000):
+        async for item in service.get_all_batch(size=BATCH_SIZE, max_iterations=10000):
+            item = item.to_dict()
             if limit != 0 and processed >= limit:
                 print(f"Reached limit of {limit} items for {resource}.")
                 break
@@ -138,7 +182,7 @@ def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
             print(msg)
 
             if not dry_run:
-                service.system_update(item["_id"], updates, item)
+                await service.system_update(item["_id"], updates)
 
             processed += 1
 
