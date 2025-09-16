@@ -14,15 +14,3 @@ updates:
     directory: "/server"
     schedule:
       interval: "daily"
-
- # next
-  - package-ecosystem: "npm"
-    target-branch: "next"
-    directory: "/client"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "pip"
-    target-branch: "next"
-    directory: "/server"
-    schedule:
-      interval: "daily"
