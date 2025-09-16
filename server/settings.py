@@ -1,7 +1,6 @@
 import os
 import pathlib
 
-from quart_babel import lazy_gettext
 from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
@@ -14,6 +13,7 @@ from newsroom.web.default_settings import (
     AGENDA_SEARCH_FIELDS,
     MODULES as DEFAULT_MODULES,
     CLIENT_CONFIG,
+    lazy_gettext,
 )
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent

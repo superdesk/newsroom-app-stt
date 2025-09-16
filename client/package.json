@@ -4,6 +4,6 @@
     "build": "webpack --mode production --progress"
   },
   "dependencies": {
-    "newsroom-core": "github:superdesk/newsroom-core#feature/multiple-events-in-planning"
+    "newsroom-core": "github:superdesk/newsroom-core#develop"
   }
 }
