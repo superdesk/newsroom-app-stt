@@ -47,7 +47,7 @@ AGENDA_GROUPS = [
         "nested": {
             "parent": "subject",
             "field": "scheme",
-            "value": "mediatopic",
+            "value": "topics",
             "include_planning": True,
         },
         "permissions": [],
