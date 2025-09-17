@@ -1,44 +1,60 @@
 [
     {
         "_id": "wire",
-        "init_version": 5,
-        "preview": {
-            "slugline": {
-                "displayed": false
+        "init_version": 6,
+        "preview" : {
+            "slugline" : {
+                "displayed" : false
             },
-            "metadata_fields": [
-              "urgency",
-              ["source", "//", {"field": "sttdepartment", "styles": { "fontWeight": "bold" }}],
-              {
-                  "field": "sttversion",
-                  "component": "version_type"
-              },
-              ["charcount", "/", "wordcount"],
-              "previous_versions"
+            "subject" : {
+                "scheme" : [
+                    "topics"
+                ]
+            },
+            "metadata_fields" : [
+                "urgency",
+                [
+                    "source",
+                    "//",
+                    "service"
+                ],
+                {
+                    "field" : "sttversion",
+                    "component" : "version_type"
+                },
+                [
+                    "charcount",
+                    "/",
+                    "wordcount"
+                ],
+                "previous_versions"
             ]
         },
-        "details": {
-            "slugline": {
-                "displayed": false
+        "details" : {
+            "slugline" : {
+                "displayed" : false
             },
-            "metadata_fields": [
-              "urgency",
-              "source",
-              {"field": "sttdepartment", "styles": { "fontWeight": "bold" }},
-              "sttversion",
-              "charcount",
-              "previous_versions",
-              "embargo"
+            "metadata_fields" : [
+                "urgency",
+                "source",
+                "service",
+                "sttversion",
+                "charcount",
+                "previous_versions",
+                "embargo"
             ]
         },
-        "list": {
-            "highlights": {
-                "urgency": ["#C20000", "#BE8502"]
+        "list" : {
+            "highlights" : {
+                "urgency" : [
+                    "#C20000",
+                    "#BE8502"
+                ]
             },
-            "metadata_fields": [
+            "metadata_fields" : [
                 "source",
                 "//",
-                {"field": "sttdepartment", "styles": { "fontWeight": "bold" }},
+                "service",
                 "//",
                 "sttversion",
                 "//",
@@ -46,8 +62,8 @@
                 "//",
                 "versioncreated"
             ],
-            "compact_metadata_fields": [
-                {"field": "sttdepartment", "styles": { "fontWeight": "bold" }},
+            "compact_metadata_fields" : [
+                "service",
                 "//",
                 "sttversion",
                 "//",
@@ -55,10 +71,10 @@
                 "//",
                 "versioncreated"
             ],
-            "show_list_action_icons": {
-                "large": true,
-                "compact": true,
-                "mobile": false
+            "show_list_action_icons" : {
+                "large" : true,
+                "compact" : true,
+                "mobile" : false
             }
         },
         "advanced_search_tabs": {},

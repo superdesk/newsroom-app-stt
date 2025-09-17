@@ -38,23 +38,16 @@ INSTALLED_APPS = [
 
 AGENDA_GROUPS = [
     {
-        "field": "sttdepartment",
+        "field": "service",
         "label": lazy_gettext("Department"),
-        "nested": {
-            "parent": "subject",
-            "field": "scheme",
-            "value": "sttdepartment",
-            "include_planning": True,
-        },
-        "permissions": [],
     },
     {
-        "field": "sttsubj",
+        "field": "subject",
         "label": lazy_gettext("Subject"),
         "nested": {
             "parent": "subject",
             "field": "scheme",
-            "value": "sttsubj",
+            "value": "topics",
             "include_planning": True,
         },
         "permissions": [],
@@ -84,13 +77,8 @@ AGENDA_GROUPS = [
 
 WIRE_GROUPS = [
     {
-        "field": "sttdepartment",
+        "field": "service",
         "label": lazy_gettext("Department"),
-        "nested": {
-            "parent": "subject",
-            "field": "scheme",
-            "value": "sttdepartment",
-        },
     },
     {
         "field": "genre",
@@ -108,6 +96,7 @@ WIRE_GROUPS = [
 ]
 
 WIRE_AGGS = {
+    "service": {"terms": {"field": "service.name", "size": 100}},
     "genre": {"terms": {"field": "genre.name", "size": 50}},
     "_subject": {
         "terms": {"field": "subject.name", "size": 50}
