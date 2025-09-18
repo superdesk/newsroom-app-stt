@@ -4,6 +4,8 @@ import click
 
 from pathlib import Path
 
+from superdesk import json_utils
+
 from newsroom.commands.cli import newsroom_cli
 from newsroom.core import get_current_wsgi_app
 
@@ -131,11 +133,14 @@ def get_service_instance(resource):
     is_flag=True,
     help="Enable verbose output",
 )
-async def remap_stt_metadata(resources, limit, sleep_secs, dry_run, verbose):
-    await remap_stt_metadata_handler(resources, limit, sleep_secs, dry_run, verbose)
-
-
-async def remap_stt_metadata_handler(resources, limit, sleep_secs, dry_run, verbose):
+@click.option(
+    "--query",
+    type=str,
+    help="JSON query to filter items (will be passed as lookup parameter)",
+)
+async def remap_stt_metadata(
+    resources, limit, sleep_secs, dry_run, verbose, query=None
+):
     """
     Remap STT metadata fields for Wire and Agenda items in Newsroom.
 
@@ -146,7 +151,20 @@ async def remap_stt_metadata_handler(resources, limit, sleep_secs, dry_run, verb
       - Remapping the language field for STT metadata (fi/en)
 
     Supports dry-run mode, resource selection, batch processing, and verbosity.
+    Query parameter can be used to filter items using MongoDB query syntax.
+    If datetime fields are included in `query`, these should be in the same format
+    as `DATE_FORMAT` setting.
     """
+
+    await remap_stt_metadata_handler(
+        resources, limit, sleep_secs, dry_run, verbose, query
+    )
+
+
+async def remap_stt_metadata_handler(
+    resources, limit, sleep_secs, dry_run, verbose, query=None
+):
+    """Handler function to remap STT metadata fields."""
 
     BATCH_SIZE = 500
     topics_not_found = set()
@@ -155,12 +173,18 @@ async def remap_stt_metadata_handler(resources, limit, sleep_secs, dry_run, verb
     if isinstance(resources, tuple):
         resources = list(resources)
 
+    lookup = json_utils.loads(query) if query else None
+
     for resource in resources:
         print(f"Processing resource: '{resource}'")
         service = get_service_instance(resource)
         processed = 0
 
-        async for item in service.get_all_batch(size=BATCH_SIZE, max_iterations=10000):
+        async for item in service.get_all_batch(
+            size=BATCH_SIZE,
+            max_iterations=10000,
+            lookup=lookup,
+        ):
             item = item.to_dict()
             if limit != 0 and processed >= limit:
                 print(f"Reached limit of {limit} items for {resource}.")
