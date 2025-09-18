@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "stt.external_links",
     "stt.filters",
     "stt.signals",
+    "stt.ui_config_patch",
     "newsroom.auth.saml",
 ]
 
