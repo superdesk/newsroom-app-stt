@@ -18,7 +18,7 @@ class FakeService:
         # store by _id for easier updates
         self._items = {i["_id"]: i for i in items}
 
-    async def get_all_batch(self, size=100, max_iterations=10000):
+    async def get_all_batch(self, size=100, max_iterations=10000, lookup=None):
         # simple paginator over current values, now async
         items = list(self._items.values())
         for i in range(0, min(len(items), size * max_iterations), size):
