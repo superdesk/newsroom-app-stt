@@ -9,4 +9,4 @@ pytest-asyncio==1.2.0
 responses==0.25.8
 httmock==1.4.0
 httmock==1.4.0
-mypy==1.18.1
+mypy==1.18.2
