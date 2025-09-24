@@ -42,7 +42,7 @@ AGENDA_GROUPS = [
         "label": lazy_gettext("Department"),
     },
     {
-        "field": "subject",
+        "field": "topics",
         "label": lazy_gettext("Subject"),
         "nested": {
             "parent": "subject",
