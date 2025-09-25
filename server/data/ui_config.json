@@ -108,7 +108,7 @@
     },
     {
         "_id": "agenda",
-        "init_version": 6,
+        "init_version": 7,
         "subnav": {
             "filters": [
                 "item_type",
@@ -130,6 +130,9 @@
             }
         },
         "preview": {
+            "subjects": {
+                "displayed": false
+            },
             "coverage_metadata_fields": [
                 "coverage_header",
                 "coverage_expected_date",
