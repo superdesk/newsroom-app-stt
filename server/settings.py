@@ -1,7 +1,6 @@
 import os
 import pathlib
 
-from flask_babel import lazy_gettext
 from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
@@ -14,6 +13,7 @@ from newsroom.web.default_settings import (
     WIRE_TIME_FILTERS,
     AGENDA_SEARCH_FIELDS,
     CLIENT_CONFIG,
+    lazy_gettext,
 )
 
 SERVER_PATH = pathlib.Path(__file__).resolve().parent

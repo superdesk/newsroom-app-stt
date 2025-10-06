@@ -5,12 +5,15 @@ from newsroom.signals import publish_item
 from eve_elastic.elastic import parse_date
 from copy import copy
 
+from newsroom.core import get_current_wsgi_app
+
 STT_NESTED_FIELDS = ["sttdepartment", "sttversion"]
 STT_ROOT_FIELDS = ["sttgenre", "sttdone1"]
 STT_FIELDS = STT_NESTED_FIELDS + STT_ROOT_FIELDS
 
 
-def get_previous_version(app, guid, version):
+def get_previous_version(guid, version):
+    app = get_current_wsgi_app()
     for i in range(int(version) - 1, 1, -1):
         id = "{}:{}".format(guid, i)
         original = app.data.find_one("items", req=None, _id=id)
@@ -20,7 +23,7 @@ def get_previous_version(app, guid, version):
     return app.data.find_one("items", req=None, _id=guid)
 
 
-def on_publish_item(app, item, is_new, **kwargs):
+def on_publish_item(item, is_new, **kwargs):
     """Populate stt department and version fields."""
     if item.get("subject"):
         for subject in item["subject"]:
@@ -53,7 +56,7 @@ def on_publish_item(app, item, is_new, **kwargs):
 
     # link the previous versions and update the id of the story
     if not is_new and "evolvedfrom" not in item:
-        original = get_previous_version(app, item["guid"], item["version"])
+        original = get_previous_version(item["guid"], item["version"])
 
         if original:
             if original.get("version") == item["version"]:
