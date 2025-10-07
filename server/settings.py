@@ -5,13 +5,13 @@ from newsroom.types import AuthProviderType
 from newsroom.web.default_settings import (
     ELASTICSEARCH_SETTINGS,
     CONTENTAPI_ELASTICSEARCH_SETTINGS,
-    BLUEPRINTS as DEFAULT_BLUEPRINT,
     CORE_APPS as DEFAULT_CORE_APPS,
     CELERY_BEAT_SCHEDULE as CELERY_BEAT_SCHEDULE_DEFAULT,
     CLIENT_LOCALE_FORMATS,
     AUTH_PROVIDERS,
     WIRE_TIME_FILTERS,
     AGENDA_SEARCH_FIELDS,
+    MODULES as DEFAULT_MODULES,
     CLIENT_CONFIG,
     lazy_gettext,
 )
@@ -38,23 +38,16 @@ INSTALLED_APPS = [
 
 AGENDA_GROUPS = [
     {
-        "field": "sttdepartment",
+        "field": "service",
         "label": lazy_gettext("Department"),
-        "nested": {
-            "parent": "subject",
-            "field": "scheme",
-            "value": "sttdepartment",
-            "include_planning": True,
-        },
-        "permissions": [],
     },
     {
-        "field": "sttsubj",
+        "field": "topics",
         "label": lazy_gettext("Subject"),
         "nested": {
             "parent": "subject",
             "field": "scheme",
-            "value": "sttsubj",
+            "value": "topics",
             "include_planning": True,
         },
         "permissions": [],
@@ -84,13 +77,8 @@ AGENDA_GROUPS = [
 
 WIRE_GROUPS = [
     {
-        "field": "sttdepartment",
+        "field": "service",
         "label": lazy_gettext("Department"),
-        "nested": {
-            "parent": "subject",
-            "field": "scheme",
-            "value": "sttdepartment",
-        },
     },
     {
         "field": "genre",
@@ -108,6 +96,7 @@ WIRE_GROUPS = [
 ]
 
 WIRE_AGGS = {
+    "service": {"terms": {"field": "service.name", "size": 100}},
     "genre": {"terms": {"field": "genre.name", "size": 50}},
     "_subject": {
         "terms": {"field": "subject.name", "size": 50}
@@ -124,14 +113,11 @@ CORE_APPS = [
     ]
 ]
 
-BLUEPRINTS = [
-    blueprint
-    for blueprint in DEFAULT_BLUEPRINT
-    if blueprint
-    not in [
-        "newsroom.monitoring",
-    ]
-]
+MODULES = [
+    module
+    for module in DEFAULT_MODULES
+    if module not in ["newsroom.wire.module", "newsroom.monitoring.module"]
+] + ["stt.wire"]
 
 LANGUAGES = ["fi", "en"]
 DEFAULT_LANGUAGE = "fi"

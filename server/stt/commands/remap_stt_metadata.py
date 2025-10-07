@@ -35,8 +35,12 @@ def reset_service(item, updates):
         updates["service"] = []
 
 
-def update_service(item, updates):
-    """Update `service` and `sttversion` from subject (sttdepartment)."""
+def remap_sttdepartment_to_service(item, updates):
+    """
+    Map 'sttdepartment' entries in the subject list to the 'service' field.
+    If no 'sttdepartment' is found, set a default service value.
+    Also sets the 'sttversion' field to 'Pika+'.
+    """
 
     subject = item.get("subject", [])
     for entry in subject:
@@ -52,11 +56,18 @@ def update_service(item, updates):
     updates["sttversion"] = "Pika+"
 
 
-def update_subject(item, updates, not_found):
-    """Update subject by mapping sttsubj to Media topics CV."""
+def remap_subject(item, updates, not_found):
+    """
+    - Update subject by mapping sttsubj to media topics.
+    - Removes any entry with scheme 'sttdepartment' as it was mapped to 'service'.
+    """
 
     subject = item.get("subject", [])
-    new_subjects = [entry for entry in subject if entry.get("scheme") != "sttsubj"]
+    new_subjects = [
+        entry
+        for entry in subject
+        if entry.get("scheme") not in ["sttsubj", "sttdepartment"]
+    ]
 
     for entry in subject:
         if entry.get("scheme") == "sttsubj":
@@ -192,8 +203,8 @@ async def remap_stt_metadata_handler(
 
             updates = {}
             reset_service(item, updates)
-            update_service(item, updates)
-            update_subject(item, updates, topics_not_found)
+            remap_sttdepartment_to_service(item, updates)
+            remap_subject(item, updates, topics_not_found)
             update_language(item, updates, resource)
 
             if not updates:
