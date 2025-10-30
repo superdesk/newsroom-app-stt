@@ -117,7 +117,7 @@ MODULES = [
     module
     for module in DEFAULT_MODULES
     if module not in ["newsroom.wire.module", "newsroom.monitoring.module"]
-] + ["stt.wire"]
+] + ["stt.wire", "stt.agenda"]
 
 LANGUAGES = ["fi", "en"]
 DEFAULT_LANGUAGE = "fi"
