@@ -5,8 +5,5 @@
   },
   "dependencies": {
     "newsroom-core": "github:superdesk/newsroom-core#release/3.1"
-  },
-  "volta": {
-    "node": "14.21.3"
   }
 }
