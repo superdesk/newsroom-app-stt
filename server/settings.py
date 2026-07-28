@@ -154,7 +154,15 @@ WATERMARK_IMAGE = None
 CELERY_BEAT_SCHEDULE = {
     key: val
     for key, val in CELERY_BEAT_SCHEDULE_DEFAULT.items()
-    if key == "newsroom.company_expiry"
+    if key
+    not in (
+        # disable expiry tasks, nothing should expire
+        "newsroom:remove_expired_content_api",
+        "newsroom:remove_expired_agenda",
+        # disable monitoring tasks
+        "newsroom:monitoring_schedule_alerts",
+        "newsroom:monitoring_immediate_alerts",
+    )
 }
 
 ENABLE_WATCH_LISTS = False
