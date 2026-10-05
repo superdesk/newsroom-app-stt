@@ -8,4 +8,4 @@ pytest-mock==3.16.0
 pytest-asyncio==1.4.0
 responses==0.26.3
 httmock==1.4.0
-mypy==2.3.1
+mypy==2.4.0
